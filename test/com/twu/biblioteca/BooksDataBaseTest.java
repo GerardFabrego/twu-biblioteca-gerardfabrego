@@ -21,8 +21,11 @@ public class BooksDataBaseTest {
 
     @Test
     public void testPrintListOfBooks() {
-        BooksDataBase fakeBooksDataBase = new BooksDataBase(new Book("1984"), new Book("Ulysses"));
+        BooksDataBase fakeBooksDataBase = new BooksDataBase(new Book("1984", "George Orwell", "1949")
+                , new Book("Ulysses", "James Joyce", "1920"));
         fakeBooksDataBase.printListOfBooks();
-        assertEquals("1984\nUlysses\n", outContent.toString());
+        assertEquals("Name                      Author                    Year\n" +
+                "1984                      George Orwell             1949\n" +
+                "Ulysses                   James Joyce               1920\n", outContent.toString());
     }
 }
