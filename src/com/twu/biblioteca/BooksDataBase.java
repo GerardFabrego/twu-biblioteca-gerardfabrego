@@ -36,19 +36,30 @@ public class BooksDataBase {
         }
     }
 
-    public void checkOutBook(Book book) {
+    private void checkOutBook(Book book) {
         listOfBooks.remove(book);
         listOfCheckedOutBooks.add(book);
         System.out.println("You have checked out '" + book.getName() + "'.");
     }
 
-    public void returnBook(Book book) {
-        if (listOfCheckedOutBooks.contains(book)) {
-            listOfBooks.add(book);
-            System.out.println("You returned the book '" + book.getName() + "' successfully.");
+    public void looksIfBookIsFromOurCollectionAndReturnIt(String name) {
+        boolean isFromOurCollection = false;
+        for (Book book : listOfCheckedOutBooks) {
+            if (book.getName().equals(name)) {
+                returnBook(book);
+                isFromOurCollection = true;
+                break;
+            }
         }
-        else {
-            System.out.println("The book '" + book.getName() +"' is not part of our collection");
+        if (!isFromOurCollection) {
+            System.out.println("The book '" + name + "' doesn't belong to our collection");
         }
+    }
+
+
+    public void returnBook (Book book) {
+        listOfBooks.add(book);
+        listOfCheckedOutBooks.remove(book);
+        System.out.println("You returned the book '" + book.getName() + "' successfully.");
     }
 }

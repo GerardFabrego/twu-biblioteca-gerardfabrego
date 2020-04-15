@@ -16,13 +16,13 @@ public class BooksDataBaseTest {
     BooksDataBase fakeBooksDataBase;
 
     @Before
-    public void setUpStream() {
+    public void setUp() {
         System.setOut(new PrintStream(outContent));
         fakeBooksDataBase = new BooksDataBase(new Book("1984", "George Orwell", "1949")
                 , new Book("Ulysses", "James Joyce", "1920"));
     }
     @After
-    public void restoreStream() {
+    public void restore() {
         System.setOut(originalOut);
     }
 
@@ -68,23 +68,21 @@ public class BooksDataBaseTest {
 
     @Test
     public void testCorrectBookIsReturned() {
-        BooksDataBase expectedBooksDatabase = new BooksDataBase(new Book("1984", "George Orwell", "1949")
-                , new Book("Ulysses", "James Joyce", "1920")
-                , new Book("Ender's game", "Orson Scott", "1985"));
         fakeBooksDataBase.listOfCheckedOutBooks.add(new Book("Ender's game", "Orson Scott", "1985"));
         fakeBooksDataBase.returnBook(new Book("Ender's game", "Orson Scott", "1985"));
-        assertEquals(expectedBooksDatabase.listOfBooks.size(), fakeBooksDataBase.listOfBooks.size());
-        assertEquals("You returned the book 'Ender's game' successfully.\n", outContent.toString());
 
+        assertEquals(3, fakeBooksDataBase.listOfBooks.size());
+        assertEquals(0, fakeBooksDataBase.listOfCheckedOutBooks.size());
+        assertEquals("You returned the book 'Ender's game' successfully.\n", outContent.toString());
     }
 
     @Test
     public void testWrongBookIsReturned() {
-        BooksDataBase expectedBooksDatabase = new BooksDataBase(new Book("1984", "George Orwell", "1949")
-                , new Book("Ulysses", "James Joyce", "1920"));
-        fakeBooksDataBase.returnBook(new Book("Ender's game", "Orson Scott", "1985"));
-        assertEquals(expectedBooksDatabase.listOfBooks.size(), fakeBooksDataBase.listOfBooks.size());
-        assertEquals("The book 'Ender's game' is not part of our collection\n", outContent.toString());
+        fakeBooksDataBase.listOfCheckedOutBooks.add(new Book("Ender's game", "Orson Scott", "1985"));
+        fakeBooksDataBase.looksIfBookIsFromOurCollectionAndReturnIt("Wrong book!");
 
+        assertEquals(2, fakeBooksDataBase.listOfBooks.size());
+        assertEquals(1, fakeBooksDataBase.listOfCheckedOutBooks.size());
+        assertEquals("The book 'Wrong book!' doesn't belong to our collection\n", outContent.toString());
     }
 }
