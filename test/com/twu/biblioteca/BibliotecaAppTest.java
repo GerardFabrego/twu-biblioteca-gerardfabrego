@@ -8,7 +8,6 @@ import java.io.*;
 
 public class BibliotecaAppTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    private final PrintStream originalOut = System.out;
 
 
     @Before
@@ -16,11 +15,6 @@ public class BibliotecaAppTest {
         System.setOut(new PrintStream(outContent));
         BibliotecaApp.booksDataBase =  new BooksDataBase(new Book("1984", "George Orwell", "1949"), new Book("Ulysses", "James Joyce", "1920"));
     }
-    @After
-    public void restoreStream() {
-        System.setOut(originalOut);
-    }
-
 
     @Test
     public void testPrintWelcomeMessage() {

@@ -11,8 +11,6 @@ import static org.junit.Assert.assertEquals;
 
 public class BooksDataBaseTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    private final PrintStream originalOut = System.out;
-
     BooksDataBase fakeBooksDataBase;
 
     @Before
@@ -21,10 +19,7 @@ public class BooksDataBaseTest {
         fakeBooksDataBase = new BooksDataBase(new Book("1984", "George Orwell", "1949")
                 , new Book("Ulysses", "James Joyce", "1920"));
     }
-    @After
-    public void restore() {
-        System.setOut(originalOut);
-    }
+
 
     @Test
     public void testPrintListOfBooks() {
