@@ -11,7 +11,6 @@ public class MainAppTest {
     private final PrintStream originalOut = System.out;
 
 
-
     @Before
     public void setUpStream() {
         System.setOut(new PrintStream(outContent));
@@ -22,40 +21,39 @@ public class MainAppTest {
         System.setOut(originalOut);
     }
 
+
     @Test
     public void testPrintWelcomeMessage() {
         BibliotecaApp.printWelcomeMessage();
         assertEquals("Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!\n", outContent.toString());
     }
 
-    @Test
+   @Test
     public void testPrintOptions() {
         BibliotecaApp.printOptions();
-        assertEquals("List of books\n", outContent.toString());
+        assertEquals("Options:   List of books   |   Exit\n", outContent.toString());
     }
 
     @Test
-    public void testIfPrintsTheCorrectMenuGivenAnOption() {
+    public void testIfPrintsTheCorrectMenuGivenCorrectOption() {
         String option = "List of books";
-        BibliotecaApp.goToDesiredMenu(option);
+        BibliotecaApp.doDesiredOption(option);
         assertEquals("Name                      Author                    Year\n" +
                 "1984                      George Orwell             1949\n" +
                 "Ulysses                   James Joyce               1920\n", outContent.toString());
     }
 
     @Test
-    public void testCheckIfInputIsValidOption() {
-        assertEquals(false, BibliotecaApp.isAValidOption("hola"));
-        assertEquals(true, BibliotecaApp.isAValidOption("List of books"));
+    public void testIfPrintsTheCorrectMenuGivenIncorrectOption() {
+        String option = "Hola";
+        BibliotecaApp.doDesiredOption(option);
+        assertEquals("Please select a valid option!\n", outContent.toString());
     }
 
     @Test
-    public void testGoToDesiredMenu() {
-        ByteArrayInputStream input = new ByteArrayInputStream("List of books".getBytes());
-        System.setIn(input);
-        BibliotecaApp.selectOptionAndGoToDesiredMenu();
-        assertEquals("List of books\nSelect option: \nName                      Author                    Year\n" +
-                "1984                      George Orwell             1949\n" +
-                "Ulysses                   James Joyce               1920\n", outContent.toString());
+    public void testIfProgramQuitsTheAppWhenUserSelectExit() {
+        String option = "Exit";
+        BibliotecaApp.doDesiredOption(option);
+        assertEquals("Bye!", outContent.toString());
     }
 }

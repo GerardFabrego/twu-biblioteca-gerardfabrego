@@ -1,5 +1,8 @@
 package com.twu.biblioteca;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class BibliotecaApp {
@@ -8,14 +11,17 @@ public class BibliotecaApp {
             new Book("The alchemist", "Paula Coelho", "1980"),
             new Book("Ender's game", "Orson Scott", "1985"));
 
-    static String[] options = {"List of books"};
+    static List<String> options = new ArrayList<String>(Arrays.asList("List of books", "Exit"));
+
     static String currentMenu = "";
 
     public static void main(String[] args) {
 
         printWelcomeMessage();
-        selectOptionAndGoToDesiredMenu();
-
+        while (true) {
+            String desiredOption = selectDesiredOption();
+            doDesiredOption(desiredOption);
+        }
     }
 
 
@@ -24,23 +30,18 @@ public class BibliotecaApp {
     }
 
     public static void printOptions() {
+        System.out.print("Options:   ");
         for (String option: options) {
-            System.out.println(option);
+            System.out.print(option);
+            if (options.indexOf(option) < options.size()-1){
+                System.out.print("   |   ");
+            }
+            else {
+                System.out.println();
+            }
         }
     }
 
-    public static void selectOptionAndGoToDesiredMenu() {
-
-        String desiredOption = selectDesiredOption();
-
-        if (isAValidOption(desiredOption)) {
-            goToDesiredMenu(desiredOption);
-        }
-        else {
-            System.out.println("Please select a valid option!");
-            selectOptionAndGoToDesiredMenu();
-        }
-    }
 
     public static String selectDesiredOption() {
         Scanner myObj = new Scanner(System.in);
@@ -50,25 +51,19 @@ public class BibliotecaApp {
         return desiredOption;
     }
 
-    public static void goToDesiredMenu(String desiredMenu) {
+    public static void doDesiredOption(String desiredMenu) {
         switch(desiredMenu) {
             case "List of books":
                 booksDataBase.printListOfBooks();
                 currentMenu = desiredMenu;
                 break;
+            case "Exit":
+                System.out.println("Bye!");
+                System.exit(0);
             default:
+                System.out.println("Please select a valid option!");
                 break;
         }
     }
 
-    public static boolean isAValidOption(String userOption) {
-        boolean isAValidOption = false;
-        for (String option: options) {
-            if (option.equals(userOption)) {
-                isAValidOption = true;
-                break;
-            }
-        }
-        return isAValidOption;
-    }
 }
