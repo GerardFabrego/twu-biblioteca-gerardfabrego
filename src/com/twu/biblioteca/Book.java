@@ -36,4 +36,14 @@ public class Book {
         return year;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Book) {
+            final Book other = (Book) obj;
+            if (this.name.equals(other.name) && this.author.equals(other.author) && this.year.equals(other.year)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
