@@ -36,29 +36,20 @@ public class BooksDataBaseTest {
 
         assertEquals(expectedBooksDatabase.listOfBooks.size(), fakeBooksDataBase.listOfBooks.size());
         assertEquals(expectedBooksDatabase.listOfCheckedOutBooks.size(), fakeBooksDataBase.listOfCheckedOutBooks.size());
+        assertEquals("You have checked out 'Ulysses'.\n", outContent.toString());
     }
 
     @Test
     public void testIfDatabaseIsNotModifiedWhenCheckOutWrongBook() {
         BooksDataBase expectedBooksDatabase = new BooksDataBase(new Book("1984", "George Orwell", "1949")
                 , new Book("Ulysses", "James Joyce", "1920"));
-        fakeBooksDataBase.lookForAndCheckOutBook("Hello");
+        fakeBooksDataBase.lookForAndCheckOutBook("Wrong book");
 
         assertEquals(expectedBooksDatabase.listOfBooks.size(), fakeBooksDataBase.listOfBooks.size());
         assertEquals(expectedBooksDatabase.listOfCheckedOutBooks.size(), fakeBooksDataBase.listOfCheckedOutBooks.size());
-    }
-
-    @Test
-    public void testMessageWhenSuccessfullyCheckedOutABook(){
-        fakeBooksDataBase.lookForAndCheckOutBook("Ulysses");
-        assertEquals("You have checked out 'Ulysses'.\n", outContent.toString());
-    }
-
-    @Test
-    public void testMessageWhenCouldntCheckOutABook(){
-        fakeBooksDataBase.lookForAndCheckOutBook("Wrong book");
         assertEquals("We don't have 'Wrong book' on our book database.\n", outContent.toString());
     }
+
 
     @Test
     public void testCorrectBookIsReturned() {
