@@ -1,5 +1,5 @@
-import com.twu.biblioteca.Movie;
-import com.twu.biblioteca.MoviesDataBase;
+package com.twu.biblioteca;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -27,4 +27,6 @@ public class MoviesDataBaseTest {
                 "Fight club                1999                      David Fincher             8.8/10  \n" +
                 "Jojo Rabbit               2019                      Taika Waititi             9.3/10  \n", outContent.toString());
     }
+
+
 }
