@@ -31,14 +31,14 @@ public class BibliotecaAppTest {
    @Test
     public void testPrintOptions() {
         BibliotecaApp.printOptions();
-        assertEquals("Options:   List of books   |   Checkout a book   |   Return a book   |   Exit\n", outContent.toString());
+        assertEquals("\nOptions:   List of books   |   Checkout a book   |   Return a book   |   Exit\n", outContent.toString());
     }
 
     @Test
     public void testIfPrintsTheCorrectMenuGivenCorrectOption() {
         String option = "List of books";
         BibliotecaApp.doDesiredOption(option);
-        assertEquals("Name                      Author                    Year\n" +
+        assertEquals("\nName                      Author                    Year\n" +
                 "1984                      George Orwell             1949\n" +
                 "Ulysses                   James Joyce               1920\n", outContent.toString());
     }
@@ -50,12 +50,20 @@ public class BibliotecaAppTest {
         assertEquals("Please select a valid option!\n", outContent.toString());
     }
 
+    @Test
+    public void testIfProgramCheckOutABookCorrectly() {
+        String option = "Exit";
+        BibliotecaApp.doDesiredOption(option);
+        assertEquals("Bye!\n", outContent.toString());
+    }
 
 
     @Test
     public void testIfProgramQuitsTheAppWhenUserSelectExit() {
         String option = "Exit";
         BibliotecaApp.doDesiredOption(option);
-        assertEquals("Bye!", outContent.toString());
+        assertEquals("Bye!\n", outContent.toString());
     }
+
+
 }

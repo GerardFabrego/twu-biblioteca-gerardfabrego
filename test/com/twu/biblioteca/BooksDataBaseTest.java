@@ -29,7 +29,7 @@ public class BooksDataBaseTest {
     @Test
     public void testPrintListOfBooks() {
         fakeBooksDataBase.printListOfBooks();
-        assertEquals("Name                      Author                    Year\n" +
+        assertEquals("\nName                      Author                    Year\n" +
                 "1984                      George Orwell             1949\n" +
                 "Ulysses                   James Joyce               1920\n", outContent.toString());
     }

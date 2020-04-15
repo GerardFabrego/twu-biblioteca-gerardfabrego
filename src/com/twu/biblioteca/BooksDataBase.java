@@ -16,6 +16,7 @@ public class BooksDataBase {
     }
 
     public void printListOfBooks() {
+        System.out.println();
         System.out.printf("%-25s %-25s %-4s\n", "Name", "Author", "Year");
         for(Book book: listOfBooks){
             System.out.printf("%-25s %-25s %-4s\n", book.getName(), book.getAuthor(), book.getYear());

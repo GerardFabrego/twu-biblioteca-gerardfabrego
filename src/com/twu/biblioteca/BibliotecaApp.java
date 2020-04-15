@@ -31,7 +31,7 @@ public class BibliotecaApp {
     }
 
     public static void printOptions() {
-        System.out.print("Options:   ");
+        System.out.print("\nOptions:   ");
         for (String option: options) {
             System.out.print(option);
             if (options.indexOf(option) < options.size()-1){
@@ -43,11 +43,10 @@ public class BibliotecaApp {
         }
     }
 
-
     public static String selectDesiredOption() {
         Scanner input = new Scanner(System.in);
         printOptions();
-        System.out.println("Select option: ");
+        System.out.print("Select option: ");
         return input.nextLine();
     }
 
@@ -65,10 +64,13 @@ public class BibliotecaApp {
                 break;
             case "Return a book":
                 System.out.println("What book do you want to return?");
+                String bookToReturn = input.nextLine();
+                booksDataBase.looksIfBookIsFromOurCollectionAndReturnIt(bookToReturn);
                 break;
             case "Exit":
                 System.out.println("Bye!");
                 end = true;
+                break;
             default:
                 System.out.println("Please select a valid option!");
                 break;
