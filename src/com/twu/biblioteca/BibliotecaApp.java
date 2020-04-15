@@ -10,16 +10,18 @@ public class BibliotecaApp {
     static BooksDataBase booksDataBase = new BooksDataBase(new Book("To kill a mockingbird", "Harper Lee", "1960"),
             new Book("The alchemist", "Paula Coelho", "1980"),
             new Book("Ender's game", "Orson Scott", "1985"));
+    static MoviesDataBase moviesDataBase = new MoviesDataBase(new Movie("Inception", "2010", "Christopher Nolan", "9.2/10"),
+            new Movie("Gran torino", "2008", "Clint Eastwood", "9.4/10"),
+            new Movie("Akira", "1988", "Katsuhiro Otomo", "9.2/10"));
 
-    static List<String> options = new ArrayList<>(Arrays.asList("List of books", "Checkout a book", "Return a book", "Exit"));
+    static List<String> options = new ArrayList<>(Arrays.asList("List of books", "List of movies", "Checkout a book", "Return a book", "Exit"));
 
-    static String currentMenu = "";
-    static boolean end = false;
+    static boolean exitApplication = false;
 
     public static void main(String[] args) {
 
         printWelcomeMessage();
-        while (!end) {
+        while (!exitApplication) {
             String desiredOption = selectDesiredOption();
             doDesiredOption(desiredOption);
         }
@@ -55,7 +57,9 @@ public class BibliotecaApp {
         switch(desiredMenu) {
             case "List of books":
                 booksDataBase.printListOfBooks();
-                currentMenu = desiredMenu;
+                break;
+            case "List of movies":
+                moviesDataBase.printListOfMovies();
                 break;
             case "Checkout a book":
                 System.out.println("What book do you want to checkout?");
@@ -69,7 +73,7 @@ public class BibliotecaApp {
                 break;
             case "Exit":
                 System.out.println("Bye!");
-                end = true;
+                exitApplication = true;
                 break;
             default:
                 System.out.println("Please select a valid option!");

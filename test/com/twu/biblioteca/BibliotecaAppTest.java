@@ -1,10 +1,12 @@
 package com.twu.biblioteca;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
 import static org.junit.Assert.assertEquals;
-import java.io.*;
 
 public class BibliotecaAppTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -22,14 +24,14 @@ public class BibliotecaAppTest {
         assertEquals("Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!\n", outContent.toString());
     }
 
-   @Test
+    @Test
     public void testPrintOptions() {
         BibliotecaApp.printOptions();
-        assertEquals("\nOptions:   List of books   |   Checkout a book   |   Return a book   |   Exit\n", outContent.toString());
+        assertEquals("\nOptions:   List of books   |   List of movies   |   Checkout a book   |   Return a book   |   Exit\n", outContent.toString());
     }
 
     @Test
-    public void testIfPrintsTheCorrectMenuGivenCorrectOption() {
+    public void testPrintTheCorrectMenuGivenCorrectOption() {
         String option = "List of books";
         BibliotecaApp.doDesiredOption(option);
         assertEquals("\nName                      Author                    Year\n" +
@@ -38,7 +40,7 @@ public class BibliotecaAppTest {
     }
 
     @Test
-    public void testIfPrintsTheCorrectMenuGivenIncorrectOption() {
+    public void testIfPrintsInvalidMenuGivenIncorrectOption() {
         String option = "Hola";
         BibliotecaApp.doDesiredOption(option);
         assertEquals("Please select a valid option!\n", outContent.toString());
