@@ -58,7 +58,7 @@ public class BooksDataBase {
     }
 
 
-    public void returnBook (Book book) {
+    private void returnBook (Book book) {
         listOfBooks.add(book);
         listOfCheckedOutBooks.remove(book);
         System.out.println("You returned the book '" + book.getName() + "' successfully.");

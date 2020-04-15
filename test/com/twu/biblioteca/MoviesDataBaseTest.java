@@ -10,22 +10,40 @@ import static org.junit.Assert.assertEquals;
 
 public class MoviesDataBaseTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    MoviesDataBase fakeBooksDataBase;
+    MoviesDataBase fakeMoviesDataBase;
 
     @Before
     public void setUp() {
         System.setOut(new PrintStream(outContent));
-        fakeBooksDataBase = new MoviesDataBase(new Movie("Fight club", "1999", "David Fincher", "8.8/10")
+        fakeMoviesDataBase = new MoviesDataBase(new Movie("Fight club", "1999", "David Fincher", "8.8/10")
                 , new Movie("Jojo Rabbit", "2019", "Taika Waititi", "9.3/10"));
     }
 
 
     @Test
     public void testPrintListOMovies() {
-        fakeBooksDataBase.printListOfMovies();
+        fakeMoviesDataBase.printListOfMovies();
         assertEquals("\nName                      Year                      Director                  Rating  \n" +
                 "Fight club                1999                      David Fincher             8.8/10  \n" +
                 "Jojo Rabbit               2019                      Taika Waititi             9.3/10  \n", outContent.toString());
+    }
+
+    @Test
+    public void testIfBookIsCheckedOutCorrectly() {
+        fakeMoviesDataBase.lookForAndCheckOutMovie("Fight club");
+
+        assertEquals(1, fakeMoviesDataBase.listOfMovies.size());
+        assertEquals(1, fakeMoviesDataBase.listOfCheckedOutMovies.size());
+        assertEquals("You have checked out 'Fight club'.\n", outContent.toString());
+    }
+
+    @Test
+    public void testIfDatabaseIsNotModifiedWhenCheckOutWrongBook() {
+        fakeMoviesDataBase.lookForAndCheckOutMovie("Wrong book");
+
+        assertEquals(2, fakeMoviesDataBase.listOfMovies.size());
+        assertEquals(0, fakeMoviesDataBase.listOfCheckedOutMovies.size());
+        assertEquals("We don't have 'Wrong book' on our book database.\n", outContent.toString());
     }
 
 
