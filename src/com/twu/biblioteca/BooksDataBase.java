@@ -45,6 +45,7 @@ public class BooksDataBase {
 
     private void checkOutBook(Book book) {
         book.setIsCheckedOut(true);
+        book.setUserThatHasCheckedItOut(BibliotecaApp.userLoggedIn);
         System.out.println("You have checked out '" + book.getName() + "'.");
     }
 
@@ -65,6 +66,7 @@ public class BooksDataBase {
 
     private void returnBook (Book book) {
         book.setIsCheckedOut(false);
+        book.setUserThatHasCheckedItOut(null);
         System.out.println("You returned the book '" + book.getName() + "' successfully.");
     }
 

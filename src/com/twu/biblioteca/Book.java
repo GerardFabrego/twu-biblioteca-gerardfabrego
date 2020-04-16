@@ -5,6 +5,7 @@ public class Book {
     private String author;
     private String year;
     private boolean isCheckedOut;
+    public User userThatHasCheckedItOut;
 
 
     public Book(String name, String author, String year) {
@@ -12,13 +13,6 @@ public class Book {
         setAuthor(author);
         setYear(year);
         setIsCheckedOut(false);
-    }
-
-    public Book(String name, String author, String year, boolean isCheckedOut) {
-        setName(name);
-        setAuthor(author);
-        setYear(year);
-        setIsCheckedOut(isCheckedOut);
     }
 
 
@@ -36,6 +30,7 @@ public class Book {
 
     public void setIsCheckedOut(boolean isCheckedOut) {this.isCheckedOut = isCheckedOut; }
 
+    public void setUserThatHasCheckedItOut(User userThatHasCheckedItOut) {this.userThatHasCheckedItOut = userThatHasCheckedItOut;}
 
     public String getName() {
         return name;
@@ -50,6 +45,8 @@ public class Book {
     }
 
     public boolean getIsCheckedOut() {return isCheckedOut; }
+
+    public User getUserThatHasCheckedItOut() {return userThatHasCheckedItOut;}
 
     @Override
     public boolean equals(Object obj) {
