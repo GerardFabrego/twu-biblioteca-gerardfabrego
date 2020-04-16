@@ -83,7 +83,6 @@ public class BooksDataBaseTest {
     public void testTryToReturnNotCheckedOutBook() {
         String bookName = "TestBook";
         Book testBook = new Book(bookName, "Gerard", "2000");
-        testBook.setIsCheckedOut(false);
         fakeBooksDataBase.listOfBooks.add(testBook);
 
         fakeBooksDataBase.checksIfBookIsFromOurCollectionAndReturnIt(bookName);

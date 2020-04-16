@@ -1,11 +1,12 @@
 package com.twu.biblioteca;
 
 public class Book {
+
     private String name;
     private String author;
     private String year;
     private boolean isCheckedOut;
-    public User userThatHasCheckedItOut;
+    private User userThatHasCheckedItOut;
 
 
     public Book(String name, String author, String year) {
