@@ -14,7 +14,8 @@ public class BibliotecaApp {
             new Movie("Gran torino", "2008", "Clint Eastwood", "9.4/10"),
             new Movie("Akira", "1988", "Katsuhiro Otomo", "9.2/10"));
 
-    static List<String> options = new ArrayList<>(Arrays.asList("List of books", "List of movies", "Checkout a book", "Return a book", "Exit"));
+    static List<String> options = new ArrayList<>(Arrays.asList("List of books", "Checkout a book", "Return a book",
+            "List of movies", "Checkout a movie", "Return a movie", "Exit"));
 
     static boolean exitApplication = false;
 
@@ -58,18 +59,28 @@ public class BibliotecaApp {
             case "List of books":
                 booksDataBase.printListOfBooks();
                 break;
-            case "List of movies":
-                moviesDataBase.printListOfMovies();
-                break;
             case "Checkout a book":
-                System.out.println("What book do you want to checkout?");
+                System.out.print("What book do you want to checkout? ");
                 String bookToCheckout = input.nextLine();
                 booksDataBase.lookForAndCheckOutBook(bookToCheckout);
                 break;
             case "Return a book":
-                System.out.println("What book do you want to return?");
+                System.out.print("What book do you want to return? ");
                 String bookToReturn = input.nextLine();
                 booksDataBase.checksIfBookIsFromOurCollectionAndReturnIt(bookToReturn);
+                break;
+            case "List of movies":
+                moviesDataBase.printListOfMovies();
+                break;
+            case "Checkout a movie":
+                System.out.print("What movie do you want to checkout? ");
+                String movieToCheckout = input.nextLine();
+                moviesDataBase.lookForAndCheckOutMovie(movieToCheckout);
+                break;
+            case "Return a movie":
+                System.out.print("What movie do you want to return? ");
+                String movieToReturn = input.nextLine();
+                moviesDataBase.checksIfMovieIsFromOurCollectionAndReturnIt(movieToReturn);
                 break;
             case "Exit":
                 System.out.println("Bye!");

@@ -27,7 +27,8 @@ public class BibliotecaAppTest {
     @Test
     public void testPrintOptions() {
         BibliotecaApp.printOptions();
-        assertEquals("\nOptions:   List of books   |   List of movies   |   Checkout a book   |   Return a book   |   Exit\n", outContent.toString());
+        assertEquals("\nOptions:   List of books   |   Checkout a book   |   Return a book   |   " +
+                "List of movies   |   Checkout a movie   |   Return a movie   |   Exit\n", outContent.toString());
     }
 
     @Test
@@ -44,13 +45,6 @@ public class BibliotecaAppTest {
         String option = "Hola";
         BibliotecaApp.doDesiredOption(option);
         assertEquals("Please select a valid option!\n", outContent.toString());
-    }
-
-    @Test
-    public void testIfProgramCheckOutABookCorrectly() {
-        String option = "Exit";
-        BibliotecaApp.doDesiredOption(option);
-        assertEquals("Bye!\n", outContent.toString());
     }
 
 
