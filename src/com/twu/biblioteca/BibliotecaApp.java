@@ -14,9 +14,13 @@ public class BibliotecaApp {
             new Movie("Gran torino", "2008", "Clint Eastwood", "9.4/10"),
             new Movie("Akira", "1988", "Katsuhiro Otomo", "9.2/10"));
 
+    static UsersDataBase usersDatabase = new UsersDataBase(new User("Gerard", "123-4567", "hellohello"));
+
+
     static List<String> options = new ArrayList<>(Arrays.asList("List of books", "Checkout a book", "Return a book",
             "List of movies", "Checkout a movie", "Return a movie", "Exit"));
 
+    static boolean userLoggedIn = false;
     static boolean exitApplication = false;
 
     public static void main(String[] args) {
@@ -92,4 +96,9 @@ public class BibliotecaApp {
         }
     }
 
+    public static void userLogIn(String libraryNumber, String password) {
+        if (usersDatabase.checkIfCredentialsAreCorrect(libraryNumber, password)) {
+            userLoggedIn = true;
+        }
+    }
 }

@@ -16,6 +16,7 @@ public class BibliotecaAppTest {
     public void setUpStream() {
         System.setOut(new PrintStream(outContent));
         BibliotecaApp.booksDataBase =  new BooksDataBase(new Book("1984", "George Orwell", "1949"), new Book("Ulysses", "James Joyce", "1920"));
+        BibliotecaApp.usersDatabase = new UsersDataBase(new User("Gerard", "123-4567", "hellohello"));
     }
 
     @Test
@@ -47,7 +48,6 @@ public class BibliotecaAppTest {
         assertEquals("Please select a valid option!\n", outContent.toString());
     }
 
-
     @Test
     public void testIfProgramQuitsTheAppWhenUserSelectExit() {
         String option = "Exit";
@@ -55,5 +55,24 @@ public class BibliotecaAppTest {
         assertEquals("Bye!\n", outContent.toString());
     }
 
+    @Test
+    public void testCorrectUserCorrectPasswordLogIn() {
+        BibliotecaApp.userLogIn("123-4567", "hellohello");
+        assertEquals("You successfully logged in.\n", outContent.toString());
+        assertEquals(true, BibliotecaApp.userLoggedIn);
+    }
 
+    @Test
+    public void testIncorrectUserLogIn() {
+        BibliotecaApp.userLogIn("incorrect", "hellohello");
+        assertEquals("The user introduced doesn't exist.\n", outContent.toString());
+        assertEquals(false, BibliotecaApp.userLoggedIn);
+    }
+
+    @Test
+    public void testCorrectUserIncorrectPasswordLogIn() {
+        BibliotecaApp.userLogIn("123-4567", "Incorrect");
+        assertEquals("The password introduced isn't correct.\n", outContent.toString());
+        assertEquals(false, BibliotecaApp.userLoggedIn);
+    }
 }
