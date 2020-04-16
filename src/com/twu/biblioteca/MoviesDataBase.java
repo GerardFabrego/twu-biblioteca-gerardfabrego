@@ -41,4 +41,25 @@ public class MoviesDataBase {
         listOfCheckedOutMovies.add(movie);
         System.out.println("You have checked out '" + movie.getName() + "'.");
     }
+
+    public void checksIfMovieIsFromOurCollectionAndReturnIt(String name) {
+        boolean isFromOurCollection = false;
+        for (Movie movie : listOfCheckedOutMovies) {
+            if (movie.getName().equals(name)) {
+                returnMovie(movie);
+                isFromOurCollection = true;
+                break;
+            }
+        }
+        if (!isFromOurCollection) {
+            System.out.println("The movie '" + name + "' doesn't belong to our collection");
+        }
+    }
+
+
+    private void returnMovie (Movie movie) {
+        listOfMovies.add(movie);
+        listOfCheckedOutMovies.remove(movie);
+        System.out.println("You returned the movie '" + movie.getName() + "' successfully.");
+    }
 }

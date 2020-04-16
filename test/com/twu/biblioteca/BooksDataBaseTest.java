@@ -50,7 +50,7 @@ public class BooksDataBaseTest {
     @Test
     public void testCorrectBookIsReturned() {
         fakeBooksDataBase.listOfCheckedOutBooks.add(new Book("Ender's game", "Orson Scott", "1985"));
-        fakeBooksDataBase.looksIfBookIsFromOurCollectionAndReturnIt("Ender's game");
+        fakeBooksDataBase.checksIfBookIsFromOurCollectionAndReturnIt("Ender's game");
 
         assertEquals(3, fakeBooksDataBase.listOfBooks.size());
         assertEquals(0, fakeBooksDataBase.listOfCheckedOutBooks.size());
@@ -60,7 +60,7 @@ public class BooksDataBaseTest {
     @Test
     public void testWrongBookIsReturned() {
         fakeBooksDataBase.listOfCheckedOutBooks.add(new Book("Ender's game", "Orson Scott", "1985"));
-        fakeBooksDataBase.looksIfBookIsFromOurCollectionAndReturnIt("Wrong book!");
+        fakeBooksDataBase.checksIfBookIsFromOurCollectionAndReturnIt("Wrong book!");
 
         assertEquals(2, fakeBooksDataBase.listOfBooks.size());
         assertEquals(1, fakeBooksDataBase.listOfCheckedOutBooks.size());

@@ -69,7 +69,7 @@ public class BibliotecaApp {
             case "Return a book":
                 System.out.println("What book do you want to return?");
                 String bookToReturn = input.nextLine();
-                booksDataBase.looksIfBookIsFromOurCollectionAndReturnIt(bookToReturn);
+                booksDataBase.checksIfBookIsFromOurCollectionAndReturnIt(bookToReturn);
                 break;
             case "Exit":
                 System.out.println("Bye!");

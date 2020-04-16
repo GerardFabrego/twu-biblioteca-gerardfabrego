@@ -43,7 +43,7 @@ public class BooksDataBase {
         System.out.println("You have checked out '" + book.getName() + "'.");
     }
 
-    public void looksIfBookIsFromOurCollectionAndReturnIt(String name) {
+    public void checksIfBookIsFromOurCollectionAndReturnIt(String name) {
         boolean isFromOurCollection = false;
         for (Book book : listOfCheckedOutBooks) {
             if (book.getName().equals(name)) {

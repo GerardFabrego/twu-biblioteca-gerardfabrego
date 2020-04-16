@@ -29,7 +29,7 @@ public class MoviesDataBaseTest {
     }
 
     @Test
-    public void testIfBookIsCheckedOutCorrectly() {
+    public void testIfMovieIsCheckedOutCorrectly() {
         fakeMoviesDataBase.lookForAndCheckOutMovie("Fight club");
 
         assertEquals(1, fakeMoviesDataBase.listOfMovies.size());
@@ -38,7 +38,7 @@ public class MoviesDataBaseTest {
     }
 
     @Test
-    public void testIfDatabaseIsNotModifiedWhenCheckOutWrongBook() {
+    public void testIfDatabaseIsNotModifiedWhenCheckOutWrongMovie() {
         fakeMoviesDataBase.lookForAndCheckOutMovie("Wrong book");
 
         assertEquals(2, fakeMoviesDataBase.listOfMovies.size());
@@ -47,4 +47,23 @@ public class MoviesDataBaseTest {
     }
 
 
+    @Test
+    public void testCorrectMovieIsReturned() {
+        fakeMoviesDataBase.listOfCheckedOutMovies.add(new Movie("Titanic", "1997", "James Cameron", "7.8/10"));
+        fakeMoviesDataBase.checksIfMovieIsFromOurCollectionAndReturnIt("Titanic");
+
+        assertEquals(3, fakeMoviesDataBase.listOfMovies.size());
+        assertEquals(0, fakeMoviesDataBase.listOfCheckedOutMovies.size());
+        assertEquals("You returned the movie 'Titanic' successfully.\n", outContent.toString());
+    }
+
+    @Test
+    public void testWrongMovieIsReturned() {
+        fakeMoviesDataBase.listOfCheckedOutMovies.add(new Movie("Titanic", "1997", "James Cameron", "7.8/10"));
+        fakeMoviesDataBase.checksIfMovieIsFromOurCollectionAndReturnIt("Wrong movie");
+
+        assertEquals(2, fakeMoviesDataBase.listOfMovies.size());
+        assertEquals(1, fakeMoviesDataBase.listOfCheckedOutMovies.size());
+        assertEquals("The movie 'Wrong movie' doesn't belong to our collection\n", outContent.toString());
+    }
 }
