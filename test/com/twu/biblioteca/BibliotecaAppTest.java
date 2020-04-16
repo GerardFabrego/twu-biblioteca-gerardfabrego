@@ -13,14 +13,14 @@ import static org.junit.Assert.*;
 public class BibliotecaAppTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     User testUser = new User("Gerard", "123-4567", "hellohello");
+    User testUser2 = new User("Mariano", "987-6543", "byebye");
 
 
     @Before
     public void setUp() {
         System.setOut(new PrintStream(outContent));
-        BibliotecaApp.booksDataBase =  new BooksDataBase(new Book("1984", "George Orwell", "1949"), new Book("Ulysses", "James Joyce", "1920"));
         BibliotecaApp.usersDatabase = new UsersDataBase(new User("Gerard", "123-4567", "hellohello"));
-        BibliotecaApp.options = new ArrayList<>(Arrays.asList("List of books", "List of movies", "Log in", "Exit"));
+        BibliotecaApp.options = new ArrayList<>(Arrays.asList("List of books", "List of movies", "See checked out books", "Log in", "Exit"));
         BibliotecaApp.setIsLoggedIn(false);
         BibliotecaApp.setUserLoggedIn(null);
     }
@@ -34,7 +34,7 @@ public class BibliotecaAppTest {
     @Test
     public void testPrintOptionsWithoutLogIn() {
         BibliotecaApp.printOptions();
-        assertEquals("\nOptions:   List of books   |   List of movies   |   Log in   |   Exit\n", outContent.toString());
+        assertEquals("\nOptions:   List of books   |   List of movies   |   See checked out books   |   Log in   |   Exit\n", outContent.toString());
     }
 
     @Test
@@ -50,7 +50,7 @@ public class BibliotecaAppTest {
         BibliotecaApp.logIn(new User("Gerard", "123-4567", "hellohello"));
         BibliotecaApp.logOut();
         BibliotecaApp.printOptions();
-        assertEquals("\nOptions:   List of books   |   List of movies   |   Log in   |   Exit\n", outContent.toString());
+        assertEquals("\nOptions:   List of books   |   List of movies   |   See checked out books   |   Log in   |   Exit\n", outContent.toString());
     }
 
     @Test
@@ -81,7 +81,7 @@ public class BibliotecaAppTest {
         BibliotecaApp.tryToLogIn("123-4567", "hellohello");
         assertEquals("You successfully logged in.\n", outContent.toString());
         assertTrue(BibliotecaApp.getIsLoggedIn());
-        assertEquals("Gerard", BibliotecaApp.getUserLoggedIn().userName);
+        assertEquals("Gerard", BibliotecaApp.getUserLoggedIn().getUserName());
     }
 
     @Test
@@ -104,5 +104,25 @@ public class BibliotecaAppTest {
         BibliotecaApp.setUserLoggedIn(testUser);
         BibliotecaApp.tryToLogOut();
         assertEquals("You successfully logged out.\n", outContent.toString());
+    }
+
+    @Test
+    public void testPrintCheckedOutItems() {
+        //create a checked out book
+        Book testBook = new Book("Book 10", "Bruce Lee", "2020");
+        testBook.setIsCheckedOut(true);
+        testBook.setUserThatHasCheckedItOut(testUser);
+        BibliotecaApp.booksDataBase.listOfBooks.add(testBook);
+        //create a checked out movie
+        Movie testMovie = new Movie("Movie2010", "2000", "Donald Trump", "3.0/10");
+        testMovie.setIsCheckedOut(true);
+        testMovie.setUserThatHasCheckedItOut(testUser2);
+        BibliotecaApp.moviesDataBase.listOfMovies.add(testMovie);
+
+        BibliotecaApp.printCheckedOutItems();
+        String expectedString = "\nUser                      Type                      Name                      Author/Director           Year\n" +
+                "123-4567                  Book                      Book 10                   Bruce Lee                 2020\n" +
+                "987-6543                  Movie                     Movie2010                 Donald Trump              2000\n";
+        assertEquals(expectedString, outContent.toString());
     }
 }

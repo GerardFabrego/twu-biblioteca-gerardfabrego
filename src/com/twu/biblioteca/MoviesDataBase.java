@@ -73,4 +73,12 @@ public class MoviesDataBase {
             System.out.println("You hadn't previously checked out the movie '" + movie.getName() + "'.");
         }
     }
+
+    public void printCheckedOutMovies() {
+        for (Movie movie : listOfMovies) {
+            if (movie.getIsCheckedOut()) {
+                System.out.printf("%-25s %-25s %-25s %-25s %-4s\n", movie.getUserThatHasCheckedItOut().getLibraryNumber(), "Movie", movie.getName(), movie.getDirector(), movie.getYear());
+            }
+        }
+    }
 }

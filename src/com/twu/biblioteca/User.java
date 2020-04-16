@@ -1,9 +1,9 @@
 package com.twu.biblioteca;
 
 public class User {
-    String userName;
-    String libraryNumber;
-    String password;
+    private String userName;
+    private String libraryNumber;
+    private String password;
 
     public User(String username, String libraryNumber, String password) {
         setUserName(username);

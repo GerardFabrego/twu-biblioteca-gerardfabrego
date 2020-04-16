@@ -75,6 +75,11 @@ public class BooksDataBase {
     }
 
 
-
-
+    public void printCheckedOutBooks() {
+        for (Book book : listOfBooks){
+            if (book.getIsCheckedOut()) {
+                System.out.printf("%-25s %-25s %-25s %-25s %-4s\n", book.getUserThatHasCheckedItOut().getLibraryNumber(),"Book", book.getName(), book.getAuthor(), book.getYear());
+            }
+        }
+    }
 }

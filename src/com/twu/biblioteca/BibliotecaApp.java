@@ -18,7 +18,7 @@ public class BibliotecaApp {
             new User("Mariano", "234-5678", "byebye"));
 
 
-    static List<String> options = new ArrayList<>(Arrays.asList("List of books", "List of movies", "Log in", "Exit"));
+    static List<String> options = new ArrayList<>(Arrays.asList("List of books", "List of movies", "See checked out items", "Log in", "Exit"));
 
     private static boolean exitApplication = false;
     private static boolean isLoggedIn = false;
@@ -60,23 +60,6 @@ public class BibliotecaApp {
 
 
 
-    public static void printWelcomeMessage(){
-        System.out.println("Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!");
-    }
-
-    public static void printOptions() {
-        System.out.print("\nOptions:   ");
-        for (String option: options) {
-            System.out.print(option);
-            if (options.indexOf(option) < options.size()-1){
-                System.out.print("   |   ");
-            }
-            else {
-                System.out.println();
-            }
-        }
-    }
-
     public static String selectDesiredOption() {
         Scanner input = new Scanner(System.in);
         printOptions();
@@ -114,6 +97,9 @@ public class BibliotecaApp {
                     String movieToReturn = input.nextLine();
                     moviesDataBase.checksIfMovieIsFromOurCollectionAndReturnIt(movieToReturn);
                     break;
+                case "See checked out items":
+                    printCheckedOutItems();
+                    break;
                 case "Log in":
                     System.out.print("Please introduce your Library Number: ");
                     String libraryNumber = input.nextLine();
@@ -131,6 +117,23 @@ public class BibliotecaApp {
             }
         } else {
             System.out.println("Please select a valid option!");
+        }
+    }
+
+    public static void printWelcomeMessage(){
+        System.out.println("Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!");
+    }
+
+    public static void printOptions() {
+        System.out.print("\nOptions:   ");
+        for (String option: options) {
+            System.out.print(option);
+            if (options.indexOf(option) < options.size()-1){
+                System.out.print("   |   ");
+            }
+            else {
+                System.out.println();
+            }
         }
     }
 
@@ -170,6 +173,7 @@ public class BibliotecaApp {
     private static void modifyOptions() {
         if (getIsLoggedIn()) {
             options.remove("Log in");
+            options.remove("See checked out items");
             options.add(1, "Checkout a book");
             options.add(2, "Return a book");
             options.add(4, "Checkout a movie");
@@ -181,9 +185,16 @@ public class BibliotecaApp {
             options.remove("Checkout a movie");
             options.remove("Return a movie");
             options.remove("Log out");
-            options.add(2, "Log in");
+            options.add(2, "See checked out items");
+            options.add(3, "Log in");
         }
     }
 
 
+    public static void printCheckedOutItems() {
+        System.out.println();
+        System.out.printf("%-25s %-25s %-25s %-25s %-4s\n", "User","Type", "Name", "Author/Director", "Year");
+        booksDataBase.printCheckedOutBooks();
+        moviesDataBase.printCheckedOutMovies();
+    }
 }
