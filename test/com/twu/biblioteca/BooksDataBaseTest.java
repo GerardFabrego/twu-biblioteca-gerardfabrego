@@ -12,6 +12,7 @@ public class BooksDataBaseTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     BooksDataBase fakeBooksDataBase = new BooksDataBase();
     User testUser = new User("Gerard", "123-4567", "hellohello");
+    User testUser2 = new User("Mariano", "987-6543", "byebye");
 
 
     @Before
@@ -35,8 +36,9 @@ public class BooksDataBaseTest {
         String bookName = "TestBook";
         Book testBook = new Book(bookName, "Gerard", "2000");
         fakeBooksDataBase.listOfBooks.add(testBook);
-        BibliotecaApp.isLoggedIn = true;
-        BibliotecaApp.userLoggedIn = testUser;
+
+        BibliotecaApp.setIsLoggedIn(true);
+        BibliotecaApp.setUserLoggedIn(testUser);
 
         fakeBooksDataBase.lookForAndCheckOutBook(bookName);
         assertTrue(fakeBooksDataBase.getBookByName(bookName).getIsCheckedOut());
@@ -66,17 +68,37 @@ public class BooksDataBaseTest {
 
 
     @Test
-    public void testCheckedOutBookIsReturned() {
+    public void testCheckedOutBookIsReturnedByCorrectUser() {
         String bookName = "TestBook";
         Book testBook = new Book(bookName, "Gerard", "2000");
         testBook.setIsCheckedOut(true);
         testBook.setUserThatHasCheckedItOut(testUser);
         fakeBooksDataBase.listOfBooks.add(testBook);
+        BibliotecaApp.setIsLoggedIn(true);
+        BibliotecaApp.setUserLoggedIn(testUser);
 
         fakeBooksDataBase.checksIfBookIsFromOurCollectionAndReturnIt(bookName);
+
         assertFalse(fakeBooksDataBase.getBookByName(bookName).getIsCheckedOut());
         assertNull(fakeBooksDataBase.getBookByName(bookName).getUserThatHasCheckedItOut());
         assertEquals("You returned the book '" + bookName + "' successfully.\n", outContent.toString());
+    }
+
+    @Test
+    public void testCheckedOutBookIsReturnedByWrongUser() {
+        String bookName = "TestBook";
+        Book testBook = new Book(bookName, "Gerard", "2000");
+        testBook.setIsCheckedOut(true);
+        testBook.setUserThatHasCheckedItOut(testUser);
+        fakeBooksDataBase.listOfBooks.add(testBook);
+        BibliotecaApp.setIsLoggedIn(true);
+        BibliotecaApp.setUserLoggedIn(testUser2);
+
+        fakeBooksDataBase.checksIfBookIsFromOurCollectionAndReturnIt(bookName);
+
+        assertTrue(fakeBooksDataBase.getBookByName(bookName).getIsCheckedOut());
+        assertEquals(testUser, fakeBooksDataBase.getBookByName(bookName).getUserThatHasCheckedItOut());
+        assertEquals("You hadn't previously checked out the book '" + bookName + "'.\n", outContent.toString());
     }
 
     @Test

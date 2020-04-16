@@ -45,7 +45,7 @@ public class MoviesDataBase {
 
     private void checkOutMovie(Movie movie) {
         movie.setIsCheckedOut(true);
-        movie.setUserThatHasCheckedItOut(BibliotecaApp.userLoggedIn);
+        movie.setUserThatHasCheckedItOut(BibliotecaApp.getUserLoggedIn());
         System.out.println("You have checked out '" + movie.getName() + "'.");
     }
 
@@ -65,8 +65,12 @@ public class MoviesDataBase {
 
 
     private void returnMovie (Movie movie) {
-        movie.setIsCheckedOut(false);
-        movie.setUserThatHasCheckedItOut(null);
-        System.out.println("You returned the movie '" + movie.getName() + "' successfully.");
+        if (movie.getUserThatHasCheckedItOut() == BibliotecaApp.getUserLoggedIn()) {
+            movie.setIsCheckedOut(false);
+            movie.setUserThatHasCheckedItOut(null);
+            System.out.println("You returned the movie '" + movie.getName() + "' successfully.");
+        } else {
+            System.out.println("You hadn't previously checked out the movie '" + movie.getName() + "'.");
+        }
     }
 }

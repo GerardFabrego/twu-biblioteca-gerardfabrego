@@ -5,11 +5,14 @@ import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
 public class BibliotecaAppTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    User testUser = new User("Gerard", "123-4567", "hellohello");
 
 
     @Before
@@ -17,8 +20,9 @@ public class BibliotecaAppTest {
         System.setOut(new PrintStream(outContent));
         BibliotecaApp.booksDataBase =  new BooksDataBase(new Book("1984", "George Orwell", "1949"), new Book("Ulysses", "James Joyce", "1920"));
         BibliotecaApp.usersDatabase = new UsersDataBase(new User("Gerard", "123-4567", "hellohello"));
-        BibliotecaApp.isLoggedIn = false;
-        BibliotecaApp.userLoggedIn = null;
+        BibliotecaApp.options = new ArrayList<>(Arrays.asList("List of books", "List of movies", "Log in", "Exit"));
+        BibliotecaApp.setIsLoggedIn(false);
+        BibliotecaApp.setUserLoggedIn(null);
     }
 
     @Test
@@ -76,29 +80,29 @@ public class BibliotecaAppTest {
     public void testCorrectUserCorrectPasswordLogIn() {
         BibliotecaApp.tryToLogIn("123-4567", "hellohello");
         assertEquals("You successfully logged in.\n", outContent.toString());
-        assertTrue(BibliotecaApp.isLoggedIn);
-        assertEquals("Gerard", BibliotecaApp.userLoggedIn.userName);
+        assertTrue(BibliotecaApp.getIsLoggedIn());
+        assertEquals("Gerard", BibliotecaApp.getUserLoggedIn().userName);
     }
 
     @Test
     public void testIncorrectUserLogIn() {
         BibliotecaApp.tryToLogIn("incorrect", "hellohello");
         assertEquals("The user introduced doesn't exist.\n", outContent.toString());
-        assertFalse(BibliotecaApp.isLoggedIn);
+        assertFalse(BibliotecaApp.getIsLoggedIn());
     }
 
     @Test
     public void testCorrectUserIncorrectPasswordLogIn() {
         BibliotecaApp.tryToLogIn("123-4567", "Incorrect");
         assertEquals("The password introduced isn't correct.\n", outContent.toString());
-        assertFalse(BibliotecaApp.isLoggedIn);
+        assertFalse(BibliotecaApp.getIsLoggedIn());
     }
 
     @Test
     public void testLogOut() {
-        BibliotecaApp.isLoggedIn = true;
-        BibliotecaApp.userLoggedIn = new User("Gerard", "123-4567", "hellohello");
-        BibliotecaApp.logOut();
+        BibliotecaApp.setIsLoggedIn(true);
+        BibliotecaApp.setUserLoggedIn(testUser);
+        BibliotecaApp.tryToLogOut();
         assertEquals("You successfully logged out.\n", outContent.toString());
     }
 }

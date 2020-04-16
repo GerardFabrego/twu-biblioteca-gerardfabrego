@@ -22,7 +22,7 @@ public class BooksDataBase {
         return null;
     }
 
-    public void printListOfBooks() {
+    public void printListOfBooks() { //TODO: only print not checked out books???
         System.out.println();
         System.out.printf("%-25s %-25s %-4s\n", "Name", "Author", "Year");
         for(Book book: listOfBooks){
@@ -45,7 +45,7 @@ public class BooksDataBase {
 
     private void checkOutBook(Book book) {
         book.setIsCheckedOut(true);
-        book.setUserThatHasCheckedItOut(BibliotecaApp.userLoggedIn);
+        book.setUserThatHasCheckedItOut(BibliotecaApp.getUserLoggedIn());
         System.out.println("You have checked out '" + book.getName() + "'.");
     }
 
@@ -65,9 +65,13 @@ public class BooksDataBase {
 
 
     private void returnBook (Book book) {
-        book.setIsCheckedOut(false);
-        book.setUserThatHasCheckedItOut(null);
-        System.out.println("You returned the book '" + book.getName() + "' successfully.");
+        if (book.getUserThatHasCheckedItOut() == BibliotecaApp.getUserLoggedIn()) {
+            book.setIsCheckedOut(false);
+            book.setUserThatHasCheckedItOut(null);
+            System.out.println("You returned the book '" + book.getName() + "' successfully.");
+        } else {
+            System.out.println("You hadn't previously checked out the book '" + book.getName() + "'.");
+        }
     }
 
 

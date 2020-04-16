@@ -14,23 +14,50 @@ public class BibliotecaApp {
             new Movie("Gran torino", "2008", "Clint Eastwood", "9.4/10"),
             new Movie("Akira", "1988", "Katsuhiro Otomo", "9.2/10"));
 
-    static UsersDataBase usersDatabase = new UsersDataBase(new User("Gerard", "123-4567", "hellohello"));
+    static UsersDataBase usersDatabase = new UsersDataBase(new User("Gerard", "123-4567", "hellohello"),
+            new User("Mariano", "234-5678", "byebye"));
 
 
     static List<String> options = new ArrayList<>(Arrays.asList("List of books", "List of movies", "Log in", "Exit"));
 
-    static boolean exitApplication = false;
-    static boolean isLoggedIn = false;
-    static User userLoggedIn = null;
+    private static boolean exitApplication = false;
+    private static boolean isLoggedIn = false;
+    private static User userLoggedIn = null;
 
     public static void main(String[] args) {
 
         printWelcomeMessage();
-        while (!exitApplication) {
+        while (!getExitApplication()) {
             String desiredOption = selectDesiredOption();
             doDesiredOption(desiredOption);
         }
     }
+
+    //Getters and setters
+    public static boolean getExitApplication() {
+        return exitApplication;
+    }
+
+    public static boolean getIsLoggedIn() {
+        return isLoggedIn;
+    }
+
+    public static User getUserLoggedIn() {
+        return userLoggedIn;
+    }
+
+    public static void setExitApplication(boolean exitApplication) {
+        BibliotecaApp.exitApplication = exitApplication;
+    }
+
+    public static void setIsLoggedIn(boolean isLoggedIn) {
+        BibliotecaApp.isLoggedIn = isLoggedIn;
+    }
+
+    public static void setUserLoggedIn(User userLoggedIn) {
+        BibliotecaApp.userLoggedIn = userLoggedIn;
+    }
+
 
 
     public static void printWelcomeMessage(){
@@ -95,14 +122,11 @@ public class BibliotecaApp {
                     tryToLogIn(libraryNumber, password);
                     break;
                 case "Log out":
-                    logOut();
+                    tryToLogOut();
                     break;
                 case "Exit":
                     System.out.println("Bye!");
-                    exitApplication = true;
-                    break;
-                default:
-                    System.out.println("Please select a valid option!");
+                    setExitApplication(true);
                     break;
             }
         } else {
@@ -125,20 +149,26 @@ public class BibliotecaApp {
     }
 
     public static void logIn(User user){
-        isLoggedIn = true;
-        userLoggedIn = user;
+        setIsLoggedIn(true);
+        setUserLoggedIn(user);
         modifyOptions();
+    }
+
+    public static void tryToLogOut() {
+       if (getIsLoggedIn()) {
+           logOut();
+           System.out.println("You successfully logged out.");
+       }
     }
 
     public static void logOut() {
-        isLoggedIn = false;
-        userLoggedIn = null;
+        setIsLoggedIn(false);
+        setUserLoggedIn(null);
         modifyOptions();
-        System.out.println("You successfully logged out.");
     }
 
     private static void modifyOptions() {
-        if (isLoggedIn) {
+        if (getIsLoggedIn()) {
             options.remove("Log in");
             options.add(1, "Checkout a book");
             options.add(2, "Return a book");
