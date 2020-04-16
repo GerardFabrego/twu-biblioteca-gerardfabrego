@@ -4,11 +4,21 @@ public class Book {
     private String name;
     private String author;
     private String year;
+    private boolean isCheckedOut;
+
 
     public Book(String name, String author, String year) {
         setName(name);
         setAuthor(author);
         setYear(year);
+        setIsCheckedOut(false);
+    }
+
+    public Book(String name, String author, String year, boolean isCheckedOut) {
+        setName(name);
+        setAuthor(author);
+        setYear(year);
+        setIsCheckedOut(isCheckedOut);
     }
 
 
@@ -24,6 +34,9 @@ public class Book {
         this.year = year;
     }
 
+    public void setIsCheckedOut(boolean isCheckedOut) {this.isCheckedOut = isCheckedOut; }
+
+
     public String getName() {
         return name;
     }
@@ -35,6 +48,8 @@ public class Book {
     public String getYear() {
         return year;
     }
+
+    public boolean getIsCheckedOut() {return isCheckedOut; }
 
     @Override
     public boolean equals(Object obj) {

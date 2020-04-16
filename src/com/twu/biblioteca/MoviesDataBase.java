@@ -5,13 +5,21 @@ import java.util.Collections;
 import java.util.List;
 
 public class MoviesDataBase {
-    List<Movie> listOfCheckedOutMovies;
+
     List<Movie> listOfMovies;
 
-    public MoviesDataBase(Movie... movie){
-        listOfCheckedOutMovies = new ArrayList<>();
+    public MoviesDataBase(Movie... movies){
         listOfMovies = new ArrayList<>();
-        Collections.addAll(listOfMovies, movie);
+        Collections.addAll(listOfMovies, movies);
+    }
+
+    public Movie getMovieByName (String movieName){
+        for (Movie movie : listOfMovies) {
+            if (movie.getName().equals(movieName)) {
+                return movie;
+            }
+        }
+        return null;
     }
 
     public void printListOfMovies() {
@@ -23,43 +31,40 @@ public class MoviesDataBase {
     }
 
     public void lookForAndCheckOutMovie(String name) {
-        boolean movieExist = false;
-        for (Movie movie: listOfMovies){
-            if (movie.getName().equals(name)) {
+        Movie movie = getMovieByName((name));
+        if (movie != null) {
+            if (!movie.getIsCheckedOut()) {
                 checkOutMovie(movie);
-                movieExist = true;
-                break;
+            } else {
+                System.out.println("'" + name + "' is currently checked out");
             }
-        }
-        if (!movieExist) {
-            System.out.println("We don't have '" + name + "' on our book database.");
+        }else {
+            System.out.println("We don't have '" + name + "' on our movie database.");
         }
     }
 
     private void checkOutMovie(Movie movie) {
-        listOfMovies.remove(movie);
-        listOfCheckedOutMovies.add(movie);
+        movie.setIsCheckedOut(true);
         System.out.println("You have checked out '" + movie.getName() + "'.");
     }
 
+
     public void checksIfMovieIsFromOurCollectionAndReturnIt(String name) {
-        boolean isFromOurCollection = false;
-        for (Movie movie : listOfCheckedOutMovies) {
-            if (movie.getName().equals(name)) {
+        Movie movie = getMovieByName((name));
+        if (movie != null) {
+            if (movie.getIsCheckedOut()) {
                 returnMovie(movie);
-                isFromOurCollection = true;
-                break;
+            } else {
+                System.out.println("'" + name + "' was not checked out.");
             }
-        }
-        if (!isFromOurCollection) {
+        }else {
             System.out.println("The movie '" + name + "' doesn't belong to our collection");
         }
     }
 
 
     private void returnMovie (Movie movie) {
-        listOfMovies.add(movie);
-        listOfCheckedOutMovies.remove(movie);
+        movie.setIsCheckedOut(false);
         System.out.println("You returned the movie '" + movie.getName() + "' successfully.");
     }
 }

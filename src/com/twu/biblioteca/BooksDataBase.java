@@ -6,13 +6,20 @@ import java.util.List;
 
 public class BooksDataBase {
 
-    List<Book> listOfCheckedOutBooks;
     List<Book> listOfBooks;
 
     public BooksDataBase(Book... books){
-        listOfCheckedOutBooks = new ArrayList<>();
         listOfBooks = new ArrayList<>();
         Collections.addAll(listOfBooks, books);
+    }
+
+    public Book getBookByName (String bookName){
+        for (Book book : listOfBooks) {
+            if (book.getName().equals(bookName)) {
+                return book;
+            }
+        }
+        return null;
     }
 
     public void printListOfBooks() {
@@ -24,43 +31,44 @@ public class BooksDataBase {
     }
 
     public void lookForAndCheckOutBook(String name) {
-        boolean bookExist = false;
-        for (Book book: listOfBooks){
-            if (book.getName().equals(name)) {
+        Book book = getBookByName((name));
+        if (book != null) {
+            if (!book.getIsCheckedOut()) {
                 checkOutBook(book);
-                bookExist = true;
-                break;
+            } else {
+                System.out.println("'" + name + "' is currently checked out");
             }
-        }
-        if (!bookExist) {
+        }else {
             System.out.println("We don't have '" + name + "' on our book database.");
         }
     }
 
     private void checkOutBook(Book book) {
-        listOfBooks.remove(book);
-        listOfCheckedOutBooks.add(book);
+        book.setIsCheckedOut(true);
         System.out.println("You have checked out '" + book.getName() + "'.");
     }
 
+
     public void checksIfBookIsFromOurCollectionAndReturnIt(String name) {
-        boolean isFromOurCollection = false;
-        for (Book book : listOfCheckedOutBooks) {
-            if (book.getName().equals(name)) {
+        Book book = getBookByName((name));
+        if (book != null) {
+            if (book.getIsCheckedOut()) {
                 returnBook(book);
-                isFromOurCollection = true;
-                break;
+            } else {
+                System.out.println("'" + name + "' was not checked out.");
             }
-        }
-        if (!isFromOurCollection) {
+        }else {
             System.out.println("The book '" + name + "' doesn't belong to our collection");
         }
     }
 
 
     private void returnBook (Book book) {
-        listOfBooks.add(book);
-        listOfCheckedOutBooks.remove(book);
+        book.setIsCheckedOut(false);
         System.out.println("You returned the book '" + book.getName() + "' successfully.");
     }
+
+
+
+
 }
