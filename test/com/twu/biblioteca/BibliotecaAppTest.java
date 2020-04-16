@@ -6,17 +6,19 @@ import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class BibliotecaAppTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 
 
     @Before
-    public void setUpStream() {
+    public void setUp() {
         System.setOut(new PrintStream(outContent));
         BibliotecaApp.booksDataBase =  new BooksDataBase(new Book("1984", "George Orwell", "1949"), new Book("Ulysses", "James Joyce", "1920"));
         BibliotecaApp.usersDatabase = new UsersDataBase(new User("Gerard", "123-4567", "hellohello"));
+        BibliotecaApp.isLoggedIn = false;
+        BibliotecaApp.userLoggedIn = null;
     }
 
     @Test
@@ -57,22 +59,23 @@ public class BibliotecaAppTest {
 
     @Test
     public void testCorrectUserCorrectPasswordLogIn() {
-        BibliotecaApp.userLogIn("123-4567", "hellohello");
+        BibliotecaApp.tryToLogIn("123-4567", "hellohello");
         assertEquals("You successfully logged in.\n", outContent.toString());
-        assertEquals(true, BibliotecaApp.userLoggedIn);
+        assertTrue(BibliotecaApp.isLoggedIn);
+        assertEquals("Gerard", BibliotecaApp.userLoggedIn.userName);
     }
 
     @Test
     public void testIncorrectUserLogIn() {
-        BibliotecaApp.userLogIn("incorrect", "hellohello");
+        BibliotecaApp.tryToLogIn("incorrect", "hellohello");
         assertEquals("The user introduced doesn't exist.\n", outContent.toString());
-        assertEquals(false, BibliotecaApp.userLoggedIn);
+        assertFalse(BibliotecaApp.isLoggedIn);
     }
 
     @Test
     public void testCorrectUserIncorrectPasswordLogIn() {
-        BibliotecaApp.userLogIn("123-4567", "Incorrect");
+        BibliotecaApp.tryToLogIn("123-4567", "Incorrect");
         assertEquals("The password introduced isn't correct.\n", outContent.toString());
-        assertEquals(false, BibliotecaApp.userLoggedIn);
+        assertFalse(BibliotecaApp.isLoggedIn);
     }
 }

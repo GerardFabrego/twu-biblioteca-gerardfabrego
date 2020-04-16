@@ -21,18 +21,4 @@ public class UsersDataBase {
         return null;
     }
 
-    public boolean checkIfCredentialsAreCorrect(String libraryNumber, String password) {
-        User currentUser = getUserByLibraryNumber(libraryNumber);
-        if (currentUser != null) {
-            if (currentUser.getPassword().equals(password)){
-                System.out.println("You successfully logged in.");
-                return true;
-            } else {
-                System.out.println("The password introduced isn't correct.");
-            }
-        } else {
-            System.out.println("The user introduced doesn't exist.");
-        }
-        return false;
-    }
 }

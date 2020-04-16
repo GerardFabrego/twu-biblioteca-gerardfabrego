@@ -20,8 +20,9 @@ public class BibliotecaApp {
     static List<String> options = new ArrayList<>(Arrays.asList("List of books", "Checkout a book", "Return a book",
             "List of movies", "Checkout a movie", "Return a movie", "Exit"));
 
-    static boolean userLoggedIn = false;
     static boolean exitApplication = false;
+    static boolean isLoggedIn = false;
+    static User userLoggedIn = null;
 
     public static void main(String[] args) {
 
@@ -96,9 +97,18 @@ public class BibliotecaApp {
         }
     }
 
-    public static void userLogIn(String libraryNumber, String password) {
-        if (usersDatabase.checkIfCredentialsAreCorrect(libraryNumber, password)) {
-            userLoggedIn = true;
+    public static void tryToLogIn(String libraryNumber, String password) {
+        User currentUser = usersDatabase.getUserByLibraryNumber(libraryNumber);
+        if (currentUser != null) {
+            if (currentUser.getPassword().equals(password)){
+                isLoggedIn = true;
+                userLoggedIn = currentUser;
+                System.out.println("You successfully logged in.");
+            } else {
+                System.out.println("The password introduced isn't correct.");
+            }
+        } else {
+            System.out.println("The user introduced doesn't exist.");
         }
     }
 }
