@@ -28,10 +28,25 @@ public class BibliotecaAppTest {
     }
 
     @Test
-    public void testPrintOptions() {
+    public void testPrintOptionsWithoutLogIn() {
+        BibliotecaApp.printOptions();
+        assertEquals("\nOptions:   List of books   |   List of movies   |   Log in   |   Exit\n", outContent.toString());
+    }
+
+    @Test
+    public void testPrintOptionsWhenLogIn() {
+        BibliotecaApp.logIn(new User("Gerard", "123-4567", "hellohello"));
         BibliotecaApp.printOptions();
         assertEquals("\nOptions:   List of books   |   Checkout a book   |   Return a book   |   " +
-                "List of movies   |   Checkout a movie   |   Return a movie   |   Exit\n", outContent.toString());
+                "List of movies   |   Checkout a movie   |   Return a movie   |   Log out   |   Exit\n", outContent.toString());
+    }
+
+    @Test
+    public void testPrintOptionsWhenLogOut() {
+        BibliotecaApp.logIn(new User("Gerard", "123-4567", "hellohello"));
+        BibliotecaApp.logOut();
+        BibliotecaApp.printOptions();
+        assertEquals("\nOptions:   List of books   |   List of movies   |   Log in   |   Exit\n", outContent.toString());
     }
 
     @Test
@@ -77,5 +92,13 @@ public class BibliotecaAppTest {
         BibliotecaApp.tryToLogIn("123-4567", "Incorrect");
         assertEquals("The password introduced isn't correct.\n", outContent.toString());
         assertFalse(BibliotecaApp.isLoggedIn);
+    }
+
+    @Test
+    public void testLogOut() {
+        BibliotecaApp.isLoggedIn = true;
+        BibliotecaApp.userLoggedIn = new User("Gerard", "123-4567", "hellohello");
+        BibliotecaApp.logOut();
+        assertEquals("You successfully logged out.\n", outContent.toString());
     }
 }
