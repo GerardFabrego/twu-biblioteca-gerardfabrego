@@ -7,15 +7,9 @@ import java.util.Scanner;
 
 public class BibliotecaApp {
 
-    static BooksDataBase booksDataBase = new BooksDataBase(new Book("To kill a mockingbird", "Harper Lee", "1960"),
-            new Book("The alchemist", "Paula Coelho", "1980"),
-            new Book("Ender's game", "Orson Scott", "1985"));
-    static MoviesDataBase moviesDataBase = new MoviesDataBase(new Movie("Inception", "2010", "Christopher Nolan", "9.2/10"),
-            new Movie("Gran torino", "2008", "Clint Eastwood", "9.4/10"),
-            new Movie("Akira", "1988", "Katsuhiro Otomo", "9.2/10"));
-
-    static UsersDataBase usersDatabase = new UsersDataBase(new User("Gerard", "123-4567", "hellohello", "gerard@mail.com", "(+34) 699 123 444"),
-            new User("Mariano", "234-5678", "byebye", "mariano@mail.com", "(+34) 628 555 948"));
+    static BooksDataBase booksDataBase;
+    static MoviesDataBase moviesDataBase;
+    static UsersDataBase usersDatabase;
 
     static List<String> options = new ArrayList<>(Arrays.asList("List of books", "List of movies", "See checked out items", "Log in", "Exit"));
 
@@ -23,14 +17,16 @@ public class BibliotecaApp {
     private static boolean isLoggedIn = false;
     private static User userLoggedIn = null;
 
-    public static void main(String[] args) {
 
+    public static void main(String[] args) {
+        setUp();
         printWelcomeMessage();
         while (!getExitApplication()) {
             String desiredOption = selectDesiredOption();
             doDesiredOption(desiredOption);
         }
     }
+
 
     //Getters and setters
     public static boolean getExitApplication() {
@@ -58,6 +54,21 @@ public class BibliotecaApp {
     }
 
 
+    private static void setUp() {
+        Book book1 = new Book("To kill a mockingbird", "Harper Lee", "1960");
+        Book book2 = new Book("The alchemist", "Paula Coelho", "1980");
+        Book book3 = new Book("Ender's game", "Orson Scott", "1985");
+        booksDataBase = new BooksDataBase(book1, book2, book3);
+
+        Movie movie1 = new Movie("Inception", "2010", "Christopher Nolan", "9.2/10");
+        Movie movie2 = new Movie("Gran torino", "2008", "Clint Eastwood", "9.4/10");
+        Movie movie3 = new Movie("Akira", "1988", "Katsuhiro Otomo", "9.2/10");
+        moviesDataBase = new MoviesDataBase(movie1, movie2, movie3);
+
+        User user1 = new User("Gerard", "123-4567", "hellohello", "gerard@mail.com", "(+34) 699 123 444");
+        User user2 = new User("Mariano", "234-5678", "byebye", "mariano@mail.com", "(+34) 628 555 948");
+        usersDatabase = new UsersDataBase(user1, user2);
+    }
 
     public static String selectDesiredOption() {
         Scanner input = new Scanner(System.in);
