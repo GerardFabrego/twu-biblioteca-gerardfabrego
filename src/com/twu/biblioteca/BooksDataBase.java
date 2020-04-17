@@ -24,9 +24,12 @@ public class BooksDataBase {
 
     public void printListOfBooks() { //TODO: only print not checked out books???
         System.out.println();
-        System.out.printf("%-25s %-25s %-4s\n", "Name", "Author", "Year");
+        System.out.printf("%-25s %-25s %-25s %-13s\n", "Name", "Author", "Year", "Is available");
         for(Book book: listOfBooks){
-            System.out.printf("%-25s %-25s %-4s\n", book.getName(), book.getAuthor(), book.getYear());
+            String isAvailable;
+            if (!book.getIsCheckedOut()) {isAvailable = "Yes";}
+            else { isAvailable = "No";}
+            System.out.printf("%-25s %-25s %-25s %-13s\n", book.getName(), book.getAuthor(), book.getYear(), isAvailable);
         }
     }
 

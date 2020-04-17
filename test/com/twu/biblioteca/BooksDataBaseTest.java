@@ -10,113 +10,117 @@ import static org.junit.Assert.*;
 
 public class BooksDataBaseTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    BooksDataBase fakeBooksDataBase = new BooksDataBase();
-    User testUser = new User("Gerard", "123-4567", "hellohello");
-    User testUser2 = new User("Mariano", "987-6543", "byebye");
-
+    BooksDataBase fakeBooksDataBase;
+    User testUser1 = new User("testUser1", "111-1111", "pass1", "user1@test.com", "(+11) 111 111 111" );
+    User testUser2 = new User("testUser2", "222-2222", "pass2", "user2@test.com", "(+22) 222 222 222");
+    Book testBook1;
+    Book testBook2;
 
     @Before
     public void setUp() {
         System.setOut(new PrintStream(outContent));
+        fakeBooksDataBase = new BooksDataBase();
+        testBook1 = new Book("1984", "George Orwell", "1949");
+        testBook2 = new Book("Ulysses", "James Joyce", "1920");
     }
 
 
     @Test
     public void testPrintListOfBooks() {
-        fakeBooksDataBase = new BooksDataBase(new Book("1984", "George Orwell", "1949")
-                , new Book("Ulysses", "James Joyce", "1920"));
+        testBook2.setIsCheckedOut(true);
+        fakeBooksDataBase = new BooksDataBase(testBook1, testBook2);
+
         fakeBooksDataBase.printListOfBooks();
-        assertEquals("\nName                      Author                    Year\n" +
-                "1984                      George Orwell             1949\n" +
-                "Ulysses                   James Joyce               1920\n", outContent.toString());
+
+        String expectedString = "\nName                      Author                    Year                      Is available \n" +
+                "1984                      George Orwell             1949                      Yes          \n" +
+                "Ulysses                   James Joyce               1920                      No           \n";
+        assertEquals(expectedString, outContent.toString());
     }
 
     @Test
     public void testBookIsCheckedOutCorrectly() {
-        String bookName = "TestBook";
-        Book testBook = new Book(bookName, "Gerard", "2000");
-        fakeBooksDataBase.listOfBooks.add(testBook);
-
+        fakeBooksDataBase.listOfBooks.add(testBook1);
         BibliotecaApp.setIsLoggedIn(true);
-        BibliotecaApp.setUserLoggedIn(testUser);
+        BibliotecaApp.setUserLoggedIn(testUser1);
 
-        fakeBooksDataBase.lookForAndCheckOutBook(bookName);
-        assertTrue(fakeBooksDataBase.getBookByName(bookName).getIsCheckedOut());
-        assertEquals(testUser, fakeBooksDataBase.getBookByName(bookName).getUserThatHasCheckedItOut());
-        assertEquals("You have checked out '" + bookName + "'.\n", outContent.toString());
+        fakeBooksDataBase.lookForAndCheckOutBook(testBook1.getName());
+
+        assertTrue(fakeBooksDataBase.getBookByName(testBook1.getName()).getIsCheckedOut());
+        assertEquals(testUser1, fakeBooksDataBase.getBookByName(testBook1.getName()).getUserThatHasCheckedItOut());
+        String expectedString = "You have checked out '" + testBook1.getName() + "'.\n";
+        assertEquals(expectedString, outContent.toString());
     }
 
     @Test
     public void testTryingToCheckOutBookAlreadyCheckedOut() {
-        String bookName = "TestBook";
-        Book testBook = new Book(bookName, "Gerard", "2000");
-        testBook.setIsCheckedOut(true);
-        fakeBooksDataBase.listOfBooks.add(testBook);
+        testBook1.setIsCheckedOut(true);
+        fakeBooksDataBase.listOfBooks.add(testBook1);
 
-        fakeBooksDataBase.lookForAndCheckOutBook(bookName);
-        assertTrue(fakeBooksDataBase.getBookByName(bookName).getIsCheckedOut());
-        assertEquals("'" + bookName + "' is currently checked out\n", outContent.toString());
+        fakeBooksDataBase.lookForAndCheckOutBook(testBook1.getName());
+
+        assertTrue(fakeBooksDataBase.getBookByName(testBook1.getName()).getIsCheckedOut());
+        String expectedString = "'" + testBook1.getName() + "' is currently checked out\n";
+        assertEquals(expectedString, outContent.toString());
     }
 
     @Test
     public void testTryingToCheckOutNotExistingBook() {
-        String bookName = "TestBook";
+        fakeBooksDataBase.lookForAndCheckOutBook(testBook1.getName());
 
-        fakeBooksDataBase.lookForAndCheckOutBook(bookName);
-        assertEquals("We don't have '" + bookName + "' on our book database.\n", outContent.toString());
+        String expectedString = "We don't have '" + testBook1.getName() + "' on our book database.\n";
+        assertEquals(expectedString, outContent.toString());
     }
 
 
     @Test
     public void testCheckedOutBookIsReturnedByCorrectUser() {
-        String bookName = "TestBook";
-        Book testBook = new Book(bookName, "Gerard", "2000");
-        testBook.setIsCheckedOut(true);
-        testBook.setUserThatHasCheckedItOut(testUser);
-        fakeBooksDataBase.listOfBooks.add(testBook);
+        testBook1.setIsCheckedOut(true);
+        testBook1.setUserThatHasCheckedItOut(testUser1);
+        fakeBooksDataBase.listOfBooks.add(testBook1);
         BibliotecaApp.setIsLoggedIn(true);
-        BibliotecaApp.setUserLoggedIn(testUser);
+        BibliotecaApp.setUserLoggedIn(testUser1);
 
-        fakeBooksDataBase.checksIfBookIsFromOurCollectionAndReturnIt(bookName);
+        fakeBooksDataBase.checksIfBookIsFromOurCollectionAndReturnIt(testBook1.getName());
 
-        assertFalse(fakeBooksDataBase.getBookByName(bookName).getIsCheckedOut());
-        assertNull(fakeBooksDataBase.getBookByName(bookName).getUserThatHasCheckedItOut());
-        assertEquals("You returned the book '" + bookName + "' successfully.\n", outContent.toString());
+        assertFalse(fakeBooksDataBase.getBookByName(testBook1.getName()).getIsCheckedOut());
+        assertNull(fakeBooksDataBase.getBookByName(testBook1.getName()).getUserThatHasCheckedItOut());
+        String expectedString = "You returned the book '" + testBook1.getName() + "' successfully.\n";
+        assertEquals(expectedString, outContent.toString());
     }
 
     @Test
     public void testCheckedOutBookIsReturnedByWrongUser() {
-        String bookName = "TestBook";
-        Book testBook = new Book(bookName, "Gerard", "2000");
-        testBook.setIsCheckedOut(true);
-        testBook.setUserThatHasCheckedItOut(testUser);
-        fakeBooksDataBase.listOfBooks.add(testBook);
+        testBook1.setIsCheckedOut(true);
+        testBook1.setUserThatHasCheckedItOut(testUser1);
+        fakeBooksDataBase.listOfBooks.add(testBook1);
         BibliotecaApp.setIsLoggedIn(true);
         BibliotecaApp.setUserLoggedIn(testUser2);
 
-        fakeBooksDataBase.checksIfBookIsFromOurCollectionAndReturnIt(bookName);
+        fakeBooksDataBase.checksIfBookIsFromOurCollectionAndReturnIt(testBook1.getName());
 
-        assertTrue(fakeBooksDataBase.getBookByName(bookName).getIsCheckedOut());
-        assertEquals(testUser, fakeBooksDataBase.getBookByName(bookName).getUserThatHasCheckedItOut());
-        assertEquals("You hadn't previously checked out the book '" + bookName + "'.\n", outContent.toString());
+        assertTrue(fakeBooksDataBase.getBookByName(testBook1.getName()).getIsCheckedOut());
+        assertEquals(testUser1, fakeBooksDataBase.getBookByName(testBook1.getName()).getUserThatHasCheckedItOut());
+        String expectedString = "You hadn't previously checked out the book '" + testBook1.getName() + "'.\n";
+        assertEquals(expectedString, outContent.toString());
     }
 
     @Test
     public void testTryToReturnNotCheckedOutBook() {
-        String bookName = "TestBook";
-        Book testBook = new Book(bookName, "Gerard", "2000");
-        fakeBooksDataBase.listOfBooks.add(testBook);
+        fakeBooksDataBase.listOfBooks.add(testBook1);
 
-        fakeBooksDataBase.checksIfBookIsFromOurCollectionAndReturnIt(bookName);
-        assertFalse(fakeBooksDataBase.getBookByName(bookName).getIsCheckedOut());
-        assertEquals("'" + bookName + "' was not checked out.\n", outContent.toString());
+        fakeBooksDataBase.checksIfBookIsFromOurCollectionAndReturnIt(testBook1.getName());
+
+        assertFalse(fakeBooksDataBase.getBookByName(testBook1.getName()).getIsCheckedOut());
+        String expectedString = "'" + testBook1.getName() + "' was not checked out.\n";
+        assertEquals(expectedString, outContent.toString());
     }
 
     @Test
     public void testTryToReturnWrongBook() {
-        String bookName = "TestBook";
+        fakeBooksDataBase.checksIfBookIsFromOurCollectionAndReturnIt(testBook1.getName());
 
-        fakeBooksDataBase.checksIfBookIsFromOurCollectionAndReturnIt(bookName);
-        assertEquals("The book '" + bookName + "' doesn't belong to our collection\n", outContent.toString());
+        String expectedString = "The book '" + testBook1.getName() + "' doesn't belong to our collection\n";
+        assertEquals(expectedString, outContent.toString());
     }
 }

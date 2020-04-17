@@ -14,9 +14,8 @@ public class BibliotecaApp {
             new Movie("Gran torino", "2008", "Clint Eastwood", "9.4/10"),
             new Movie("Akira", "1988", "Katsuhiro Otomo", "9.2/10"));
 
-    static UsersDataBase usersDatabase = new UsersDataBase(new User("Gerard", "123-4567", "hellohello"),
-            new User("Mariano", "234-5678", "byebye"));
-
+    static UsersDataBase usersDatabase = new UsersDataBase(new User("Gerard", "123-4567", "hellohello", "gerard@mail.com", "(+34) 699 123 444"),
+            new User("Mariano", "234-5678", "byebye", "mariano@mail.com", "(+34) 628 555 948"));
 
     static List<String> options = new ArrayList<>(Arrays.asList("List of books", "List of movies", "See checked out items", "Log in", "Exit"));
 
@@ -100,6 +99,9 @@ public class BibliotecaApp {
                 case "See checked out items":
                     printCheckedOutItems();
                     break;
+                case "Personal info":
+                    printUserPersonalInfo();
+                    break;
                 case "Log in":
                     System.out.print("Please introduce your Library Number: ");
                     String libraryNumber = input.nextLine();
@@ -178,12 +180,14 @@ public class BibliotecaApp {
             options.add(2, "Return a book");
             options.add(4, "Checkout a movie");
             options.add(5, "Return a movie");
-            options.add(6, "Log out");
+            options.add(6, "Personal info");
+            options.add(7, "Log out");
         } else {
             options.remove("Checkout a book");
             options.remove("Return a book");
             options.remove("Checkout a movie");
             options.remove("Return a movie");
+            options.remove("Personal info");
             options.remove("Log out");
             options.add(2, "See checked out items");
             options.add(3, "Log in");
@@ -192,9 +196,18 @@ public class BibliotecaApp {
 
 
     public static void printCheckedOutItems() {
-        System.out.println();
-        System.out.printf("%-25s %-25s %-25s %-25s %-4s\n", "User","Type", "Name", "Author/Director", "Year");
+        System.out.printf("\n%-25s %-25s %-25s %-25s %-4s\n", "User","Type", "Name", "Author/Director", "Year");
         booksDataBase.printCheckedOutBooks();
         moviesDataBase.printCheckedOutMovies();
+    }
+
+
+    public static void printUserPersonalInfo() {
+        if (getUserLoggedIn() != null) {
+            System.out.println("\nName: " + getUserLoggedIn().getUserName() +
+                    "\nLibrary number: " + getUserLoggedIn().getLibraryNumber() +
+                    "\nPhone number: " + getUserLoggedIn().getPhoneNumber() +
+                    "\nEmail: " + getUserLoggedIn().getEmail());
+        }
     }
 }
