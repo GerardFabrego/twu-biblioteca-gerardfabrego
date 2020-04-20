@@ -54,6 +54,7 @@ public class BibliotecaApp {
     }
 
 
+
     private static void setUp() {
         Book book1 = new Book("To kill a mockingbird", "Harper Lee", "1960");
         Book book2 = new Book("The alchemist", "Paula Coelho", "1980");
@@ -82,17 +83,17 @@ public class BibliotecaApp {
         if (options.contains(desiredMenu)){
             switch(desiredMenu) {
                 case "List of books":
-                    booksDataBase.printListOfBooks();
+                    booksDataBase.printListOfItems();
                     break;
                 case "Checkout a book":
                     System.out.print("What book do you want to checkout? ");
                     String bookToCheckout = input.nextLine();
-                    booksDataBase.lookForAndCheckOutBook(bookToCheckout);
+                    booksDataBase.lookForAndCheckOutItem(bookToCheckout);
                     break;
                 case "Return a book":
                     System.out.print("What book do you want to return? ");
                     String bookToReturn = input.nextLine();
-                    booksDataBase.checksIfBookIsFromOurCollectionAndReturnIt(bookToReturn);
+                    booksDataBase.checksIfItemIsFromOurCollectionAndReturnIt(bookToReturn);
                     break;
                 case "List of movies":
                     moviesDataBase.printListOfMovies();
@@ -100,12 +101,12 @@ public class BibliotecaApp {
                 case "Checkout a movie":
                     System.out.print("What movie do you want to checkout? ");
                     String movieToCheckout = input.nextLine();
-                    moviesDataBase.lookForAndCheckOutMovie(movieToCheckout);
+                    moviesDataBase.lookForAndCheckOutItem(movieToCheckout);
                     break;
                 case "Return a movie":
                     System.out.print("What movie do you want to return? ");
                     String movieToReturn = input.nextLine();
-                    moviesDataBase.checksIfMovieIsFromOurCollectionAndReturnIt(movieToReturn);
+                    moviesDataBase.checksIfItemIsFromOurCollectionAndReturnIt(movieToReturn);
                     break;
                 case "See checked out items":
                     printCheckedOutItems();
@@ -205,13 +206,11 @@ public class BibliotecaApp {
         }
     }
 
-
     public static void printCheckedOutItems() {
         System.out.printf("\n%-25s %-25s %-25s %-25s %-4s\n", "User","Type", "Name", "Author/Director", "Year");
-        booksDataBase.printCheckedOutBooks();
-        moviesDataBase.printCheckedOutMovies();
+        booksDataBase.printCheckedOutItems();
+        moviesDataBase.printCheckedOutItems();
     }
-
 
     public static void printUserPersonalInfo() {
         if (getUserLoggedIn() != null) {

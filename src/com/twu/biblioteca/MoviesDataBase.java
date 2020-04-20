@@ -2,80 +2,31 @@ package com.twu.biblioteca;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
-public class MoviesDataBase {
-
-    List<Movie> listOfMovies;
+public class MoviesDataBase extends Database {
 
     public MoviesDataBase(Movie... movies){
-        listOfMovies = new ArrayList<>();
-        Collections.addAll(listOfMovies, movies);
+        listOfItems = new ArrayList<>();
+        Collections.addAll(listOfItems, movies);
     }
 
-    public Movie getMovieByName (String movieName){
-        for (Movie movie : listOfMovies) {
-            if (movie.getName().equals(movieName)) {
-                return movie;
-            }
-        }
-        return null;
-    }
 
     public void printListOfMovies() {
         System.out.println();
-        System.out.printf("%-25s %-25s %-25s %-8s\n", "Name", "Year", "Director", "Rating");
-        for(Movie movie: listOfMovies){
-            System.out.printf("%-25s %-25s %-25s %-8s\n", movie.getName(), movie.getYear(), movie.getDirector(), movie.getRating());
-        }
-    }
-
-    public void lookForAndCheckOutMovie(String name) {
-        Movie movie = getMovieByName((name));
-        if (movie != null) {
-            if (!movie.getIsCheckedOut()) {
-                checkOutMovie(movie);
-            } else {
-                System.out.println("'" + name + "' is currently checked out");
-            }
-        }else {
-            System.out.println("We don't have '" + name + "' on our movie database.");
-        }
-    }
-
-    private void checkOutMovie(Movie movie) {
-        movie.setIsCheckedOut(true);
-        movie.setUserThatHasCheckedItOut(BibliotecaApp.getUserLoggedIn());
-        System.out.println("You have checked out '" + movie.getName() + "'.");
-    }
-
-
-    public void checksIfMovieIsFromOurCollectionAndReturnIt(String name) {
-        Movie movie = getMovieByName((name));
-        if (movie != null) {
-            if (movie.getIsCheckedOut()) {
-                returnMovie(movie);
-            } else {
-                System.out.println("'" + name + "' was not checked out.");
-            }
-        }else {
-            System.out.println("The movie '" + name + "' doesn't belong to our collection");
+        System.out.printf("%-25s %-25s %-25s %-25s %-13s\n", "Name", "Year", "Director", "Rating", "Is available");
+        for(Item item: listOfItems){
+            Movie movie = (Movie) item;
+            String isAvailable;
+            if (!movie.getIsCheckedOut()) {isAvailable = "Yes";}
+            else { isAvailable = "No";}
+            System.out.printf("%-25s %-25s %-25s %-25s %-13s\n", movie.getName(), movie.getYear(), movie.getDirector(), movie.getRating(), isAvailable);
         }
     }
 
 
-    private void returnMovie (Movie movie) {
-        if (movie.getUserThatHasCheckedItOut() == BibliotecaApp.getUserLoggedIn()) {
-            movie.setIsCheckedOut(false);
-            movie.setUserThatHasCheckedItOut(null);
-            System.out.println("You returned the movie '" + movie.getName() + "' successfully.");
-        } else {
-            System.out.println("You hadn't previously checked out the movie '" + movie.getName() + "'.");
-        }
-    }
-
-    public void printCheckedOutMovies() {
-        for (Movie movie : listOfMovies) {
+    public void printCheckedOutItems() {
+        for (Item item : listOfItems) {
+            Movie movie = (Movie) item;
             if (movie.getIsCheckedOut()) {
                 System.out.printf("%-25s %-25s %-25s %-25s %-4s\n", movie.getUserThatHasCheckedItOut().getLibraryNumber(), "Movie", movie.getName(), movie.getDirector(), movie.getYear());
             }

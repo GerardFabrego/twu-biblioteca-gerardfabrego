@@ -2,30 +2,20 @@ package com.twu.biblioteca;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
-public class BooksDataBase {
+public class BooksDataBase extends Database {
 
-    List<Book> listOfBooks;
 
     public BooksDataBase(Book... books){
-        listOfBooks = new ArrayList<>();
-        Collections.addAll(listOfBooks, books);
+        listOfItems = new ArrayList<>();
+        Collections.addAll(listOfItems, books);
     }
 
-    public Book getBookByName (String bookName){
-        for (Book book : listOfBooks) {
-            if (book.getName().equals(bookName)) {
-                return book;
-            }
-        }
-        return null;
-    }
-
-    public void printListOfBooks() { //TODO: only print not checked out books???
+    public void printListOfItems() {
         System.out.println();
         System.out.printf("%-25s %-25s %-25s %-13s\n", "Name", "Author", "Year", "Is available");
-        for(Book book: listOfBooks){
+        for(Item item: listOfItems){
+            Book book = (Book) item;
             String isAvailable;
             if (!book.getIsCheckedOut()) {isAvailable = "Yes";}
             else { isAvailable = "No";}
@@ -33,53 +23,10 @@ public class BooksDataBase {
         }
     }
 
-    public void lookForAndCheckOutBook(String name) {
-        Book book = getBookByName((name));
-        if (book != null) {
-            if (!book.getIsCheckedOut()) {
-                checkOutBook(book);
-            } else {
-                System.out.println("'" + name + "' is currently checked out");
-            }
-        }else {
-            System.out.println("We don't have '" + name + "' on our book database.");
-        }
-    }
 
-    private void checkOutBook(Book book) {
-        book.setIsCheckedOut(true);
-        book.setUserThatHasCheckedItOut(BibliotecaApp.getUserLoggedIn());
-        System.out.println("You have checked out '" + book.getName() + "'.");
-    }
-
-
-    public void checksIfBookIsFromOurCollectionAndReturnIt(String name) {
-        Book book = getBookByName((name));
-        if (book != null) {
-            if (book.getIsCheckedOut()) {
-                returnBook(book);
-            } else {
-                System.out.println("'" + name + "' was not checked out.");
-            }
-        }else {
-            System.out.println("The book '" + name + "' doesn't belong to our collection");
-        }
-    }
-
-
-    private void returnBook (Book book) {
-        if (book.getUserThatHasCheckedItOut() == BibliotecaApp.getUserLoggedIn()) {
-            book.setIsCheckedOut(false);
-            book.setUserThatHasCheckedItOut(null);
-            System.out.println("You returned the book '" + book.getName() + "' successfully.");
-        } else {
-            System.out.println("You hadn't previously checked out the book '" + book.getName() + "'.");
-        }
-    }
-
-
-    public void printCheckedOutBooks() {
-        for (Book book : listOfBooks){
+    public void printCheckedOutItems() {
+        for (Item item: listOfItems){
+            Book book = (Book) item;
             if (book.getIsCheckedOut()) {
                 System.out.printf("%-25s %-25s %-25s %-25s %-4s\n", book.getUserThatHasCheckedItOut().getLibraryNumber(),"Book", book.getName(), book.getAuthor(), book.getYear());
             }

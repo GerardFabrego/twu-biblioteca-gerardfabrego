@@ -32,43 +32,43 @@ public class MoviesDataBaseTest {
         fakeMoviesDataBase = new MoviesDataBase(testMovie1, testMovie2);
         fakeMoviesDataBase.printListOfMovies();
 
-        String expectedString = "\nName                      Year                      Director                  Rating  \n" +
-                "Fight club                1999                      David Fincher             8.8/10  \n" +
-                "Jojo Rabbit               2019                      Taika Waititi             9.3/10  \n";
+        String expectedString = "\nName                      Year                      Director                  Rating                    Is available \n" +
+                "Fight club                1999                      David Fincher             8.8/10                    Yes          \n" +
+                "Jojo Rabbit               2019                      Taika Waititi             9.3/10                    Yes          \n";
         assertEquals(expectedString, outContent.toString());
     }
 
     @Test
     public void testIfMovieIsCheckedOutCorrectly() {
-        fakeMoviesDataBase.listOfMovies.add(testMovie1);
+        fakeMoviesDataBase.listOfItems.add(testMovie1);
         BibliotecaApp.setIsLoggedIn(true);
         BibliotecaApp.setUserLoggedIn(testUser1);
 
-        fakeMoviesDataBase.lookForAndCheckOutMovie(testMovie1.getName());
+        fakeMoviesDataBase.lookForAndCheckOutItem(testMovie1.getName());
 
         String expectedString ="You have checked out '" + testMovie1.getName() + "'.\n";
-        assertTrue(fakeMoviesDataBase.getMovieByName(testMovie1.getName()).getIsCheckedOut());
-        assertEquals(testUser1, fakeMoviesDataBase.getMovieByName(testMovie1.getName()).getUserThatHasCheckedItOut());
+        assertTrue(fakeMoviesDataBase.getItemByName(testMovie1.getName()).getIsCheckedOut());
+        assertEquals(testUser1, fakeMoviesDataBase.getItemByName(testMovie1.getName()).getUserThatHasCheckedItOut());
         assertEquals(expectedString, outContent.toString());
     }
 
     @Test
     public void testTryingToCheckOutMovieAlreadyCheckedOut() {
         testMovie1.setIsCheckedOut(true);
-        fakeMoviesDataBase.listOfMovies.add(testMovie1);
+        fakeMoviesDataBase.listOfItems.add(testMovie1);
 
-        fakeMoviesDataBase.lookForAndCheckOutMovie(testMovie1.getName());
+        fakeMoviesDataBase.lookForAndCheckOutItem(testMovie1.getName());
 
         String expectedString = "'" + testMovie1.getName() + "' is currently checked out\n";
-        assertTrue(fakeMoviesDataBase.getMovieByName(testMovie1.getName()).getIsCheckedOut());
+        assertTrue(fakeMoviesDataBase.getItemByName(testMovie1.getName()).getIsCheckedOut());
         assertEquals(expectedString, outContent.toString());
     }
 
     @Test
     public void testTryingToCheckOutNotExistingMovie() {
-        fakeMoviesDataBase.lookForAndCheckOutMovie(testMovie1.getName());
+        fakeMoviesDataBase.lookForAndCheckOutItem(testMovie1.getName());
 
-        String expectedString ="We don't have '" + testMovie1.getName() + "' on our movie database.\n";
+        String expectedString ="We don't have '" + testMovie1.getName() + "' on our database.\n";
         assertEquals(expectedString, outContent.toString());
     }
 
@@ -77,15 +77,15 @@ public class MoviesDataBaseTest {
     public void testCheckedOutMovieIsReturnedByCorrectUser() {
         testMovie1.setIsCheckedOut(true);
         testMovie1.setUserThatHasCheckedItOut(testUser1);
-        fakeMoviesDataBase.listOfMovies.add(testMovie1);
+        fakeMoviesDataBase.listOfItems.add(testMovie1);
         BibliotecaApp.setIsLoggedIn(true);
         BibliotecaApp.setUserLoggedIn(testUser1);
 
-        fakeMoviesDataBase.checksIfMovieIsFromOurCollectionAndReturnIt(testMovie1.getName());
+        fakeMoviesDataBase.checksIfItemIsFromOurCollectionAndReturnIt(testMovie1.getName());
 
-        String expectedString = "You returned the movie '" + testMovie1.getName() + "' successfully.\n";
-        assertFalse(fakeMoviesDataBase.getMovieByName(testMovie1.getName()).getIsCheckedOut());
-        assertNull(fakeMoviesDataBase.getMovieByName(testMovie1.getName()).getUserThatHasCheckedItOut());
+        String expectedString = "You returned the '" + testMovie1.getName() + "' successfully.\n";
+        assertFalse(fakeMoviesDataBase.getItemByName(testMovie1.getName()).getIsCheckedOut());
+        assertNull(fakeMoviesDataBase.getItemByName(testMovie1.getName()).getUserThatHasCheckedItOut());
         assertEquals(expectedString, outContent.toString());
     }
 
@@ -93,34 +93,34 @@ public class MoviesDataBaseTest {
     public void testCheckedOutMovieIsReturnedByWrongUser() {
         testMovie1.setIsCheckedOut(true);
         testMovie1.setUserThatHasCheckedItOut(testUser1);
-        fakeMoviesDataBase.listOfMovies.add(testMovie1);
+        fakeMoviesDataBase.listOfItems.add(testMovie1);
         BibliotecaApp.setIsLoggedIn(true);
         BibliotecaApp.setUserLoggedIn(testUser2);
 
-        fakeMoviesDataBase.checksIfMovieIsFromOurCollectionAndReturnIt(testMovie1.getName());
+        fakeMoviesDataBase.checksIfItemIsFromOurCollectionAndReturnIt(testMovie1.getName());
 
-        String expectedString = "You hadn't previously checked out the movie '" + testMovie1.getName() + "'.\n";
-        assertTrue(fakeMoviesDataBase.getMovieByName(testMovie1.getName()).getIsCheckedOut());
-        assertEquals(testUser1, fakeMoviesDataBase.getMovieByName(testMovie1.getName()).getUserThatHasCheckedItOut());
+        String expectedString = "You hadn't previously checked out the '" + testMovie1.getName() + "'.\n";
+        assertTrue(fakeMoviesDataBase.getItemByName(testMovie1.getName()).getIsCheckedOut());
+        assertEquals(testUser1, fakeMoviesDataBase.getItemByName(testMovie1.getName()).getUserThatHasCheckedItOut());
         assertEquals(expectedString, outContent.toString());
     }
 
     @Test
     public void testTryToReturnNotCheckedOutMovie() {
-        fakeMoviesDataBase.listOfMovies.add(testMovie1);
+        fakeMoviesDataBase.listOfItems.add(testMovie1);
 
-        fakeMoviesDataBase.checksIfMovieIsFromOurCollectionAndReturnIt(testMovie1.getName());
+        fakeMoviesDataBase.checksIfItemIsFromOurCollectionAndReturnIt(testMovie1.getName());
 
         String expectedString = "'" + testMovie1.getName() + "' was not checked out.\n";
-        assertFalse(fakeMoviesDataBase.getMovieByName(testMovie1.getName()).getIsCheckedOut());
+        assertFalse(fakeMoviesDataBase.getItemByName(testMovie1.getName()).getIsCheckedOut());
         assertEquals(expectedString, outContent.toString());
     }
 
     @Test
     public void testTryToReturnWrongMovie() {
-        fakeMoviesDataBase.checksIfMovieIsFromOurCollectionAndReturnIt(testMovie1.getName());
+        fakeMoviesDataBase.checksIfItemIsFromOurCollectionAndReturnIt(testMovie1.getName());
 
-        String expectedString = "The movie '" + testMovie1.getName() + "' doesn't belong to our collection\n";
+        String expectedString = "The item '" + testMovie1.getName() + "' doesn't belong to our collection\n";
         assertEquals(expectedString, outContent.toString());
     }
 }

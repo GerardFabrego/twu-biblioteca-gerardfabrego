@@ -127,12 +127,12 @@ public class BibliotecaAppTest {
         Book testBook = new Book("Book 10", "Bruce Lee", "2020");
         testBook.setIsCheckedOut(true);
         testBook.setUserThatHasCheckedItOut(testUser1);
-        BibliotecaApp.booksDataBase.listOfBooks.add(testBook);
+        BibliotecaApp.booksDataBase = new BooksDataBase(testBook);
         //create a checked out movie
         Movie testMovie = new Movie("Movie2010", "2000", "Donald Trump", "3.0/10");
         testMovie.setIsCheckedOut(true);
         testMovie.setUserThatHasCheckedItOut(testUser2);
-        BibliotecaApp.moviesDataBase.listOfMovies.add(testMovie);
+        BibliotecaApp.moviesDataBase = new MoviesDataBase(testMovie);
 
         BibliotecaApp.printCheckedOutItems();
 
