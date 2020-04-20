@@ -3,7 +3,7 @@ package com.twu.biblioteca;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class BooksDataBase extends Database {
+public class BooksDataBase extends ItemsDataBase {
 
 
     public BooksDataBase(Book... books){
