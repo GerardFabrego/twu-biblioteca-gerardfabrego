@@ -1,5 +1,7 @@
 package com.twu.biblioteca;
 
+
+import com.twu.biblioteca.items.Book;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -10,7 +12,7 @@ import static org.junit.Assert.*;
 
 public class BooksDataBaseTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    BooksDataBase fakeBooksDataBase;
+    BooksRepository fakeBooksDataBase;
     User testUser1 = new User("testUser1", "111-1111", "pass1", "user1@test.com", "(+11) 111 111 111" );
     User testUser2 = new User("testUser2", "222-2222", "pass2", "user2@test.com", "(+22) 222 222 222");
     Book testBook1;
@@ -19,7 +21,7 @@ public class BooksDataBaseTest {
     @Before
     public void setUp() {
         System.setOut(new PrintStream(outContent));
-        fakeBooksDataBase = new BooksDataBase();
+        fakeBooksDataBase = new BooksRepository();
         testBook1 = new Book("1984", "George Orwell", "1949");
         testBook2 = new Book("Ulysses", "James Joyce", "1920");
     }
@@ -28,9 +30,9 @@ public class BooksDataBaseTest {
     @Test
     public void testPrintListOfBooks() {
         testBook2.setIsCheckedOut(true);
-        fakeBooksDataBase = new BooksDataBase(testBook1, testBook2);
+        fakeBooksDataBase = new BooksRepository(testBook1, testBook2);
 
-        fakeBooksDataBase.printListOfItems();
+        fakeBooksDataBase.printListOfBooks();
 
         String expectedString = "\nName                      Author                    Year                      Is available \n" +
                 "1984                      George Orwell             1949                      Yes          \n" +

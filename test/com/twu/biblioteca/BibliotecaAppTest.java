@@ -1,5 +1,7 @@
 package com.twu.biblioteca;
 
+import com.twu.biblioteca.items.Book;
+import com.twu.biblioteca.items.Movie;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,7 +21,7 @@ public class BibliotecaAppTest {
     @Before
     public void setUp() {
         System.setOut(new PrintStream(outContent));
-        BibliotecaApp.usersDatabase = new UsersDataBase(testUser1);
+        BibliotecaApp.usersDatabase = new UsersRepository(testUser1);
         BibliotecaApp.options = new ArrayList<>(Arrays.asList("List of books", "List of movies", "See checked out items", "Log in", "Exit"));
         BibliotecaApp.setIsLoggedIn(false);
         BibliotecaApp.setUserLoggedIn(null);
@@ -127,12 +129,12 @@ public class BibliotecaAppTest {
         Book testBook = new Book("Book 10", "Bruce Lee", "2020");
         testBook.setIsCheckedOut(true);
         testBook.setUserThatHasCheckedItOut(testUser1);
-        BibliotecaApp.booksDataBase = new BooksDataBase(testBook);
+        BibliotecaApp.booksDataBase = new BooksRepository(testBook);
         //create a checked out movie
         Movie testMovie = new Movie("Movie2010", "2000", "Donald Trump", "3.0/10");
         testMovie.setIsCheckedOut(true);
         testMovie.setUserThatHasCheckedItOut(testUser2);
-        BibliotecaApp.moviesDataBase = new MoviesDataBase(testMovie);
+        BibliotecaApp.moviesDataBase = new MoviesRepository(testMovie);
 
         BibliotecaApp.printCheckedOutItems();
 

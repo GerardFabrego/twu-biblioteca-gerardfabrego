@@ -1,11 +1,12 @@
 package com.twu.biblioteca;
 
-import java.util.ArrayList;
+import com.twu.biblioteca.items.Item;
+
 import java.util.List;
 
-public abstract class ItemsDataBase {
+public abstract class ItemsRepository {
 
-    List<Item> listOfItems = new ArrayList<>();
+    List<Item> listOfItems;
 
 
     public Item getItemByName (String itemName){
@@ -49,7 +50,6 @@ public abstract class ItemsDataBase {
             System.out.println("The item '" + name + "' doesn't belong to our collection");
         }
     }
-
 
     private void returnItem (Item item) {
         if (item.getUserThatHasCheckedItOut() == BibliotecaApp.getUserLoggedIn()) {

@@ -1,5 +1,8 @@
 package com.twu.biblioteca;
 
+import com.twu.biblioteca.items.Book;
+import com.twu.biblioteca.items.Movie;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -7,11 +10,11 @@ import java.util.Scanner;
 
 public class BibliotecaApp {
 
-    static BooksDataBase booksDataBase;
-    static MoviesDataBase moviesDataBase;
-    static UsersDataBase usersDatabase;
+    static BooksRepository booksDataBase;
+    static MoviesRepository moviesDataBase;
+    static UsersRepository usersDatabase;
 
-    static List<String> options = new ArrayList<>(Arrays.asList("List of books", "List of movies", "See checked out items", "Log in", "Exit"));
+    static List<String> options = new ArrayList<>(Arrays.asList(Constants.listOfBooks, Constants.listOfMovies, Constants.seeCheckedOutItems, Constants.logIn, Constants.exit));
 
     private static boolean exitApplication = false;
     private static boolean isLoggedIn = false;
@@ -59,22 +62,22 @@ public class BibliotecaApp {
         Book book1 = new Book("To kill a mockingbird", "Harper Lee", "1960");
         Book book2 = new Book("The alchemist", "Paula Coelho", "1980");
         Book book3 = new Book("Ender's game", "Orson Scott", "1985");
-        booksDataBase = new BooksDataBase(book1, book2, book3);
+        booksDataBase = new BooksRepository(book1, book2, book3);
 
         Movie movie1 = new Movie("Inception", "2010", "Christopher Nolan", "9.2/10");
         Movie movie2 = new Movie("Gran torino", "2008", "Clint Eastwood", "9.4/10");
         Movie movie3 = new Movie("Akira", "1988", "Katsuhiro Otomo", "9.2/10");
-        moviesDataBase = new MoviesDataBase(movie1, movie2, movie3);
+        moviesDataBase = new MoviesRepository(movie1, movie2, movie3);
 
         User user1 = new User("Gerard", "123-4567", "hellohello", "gerard@mail.com", "(+34) 699 123 444");
         User user2 = new User("Mariano", "234-5678", "byebye", "mariano@mail.com", "(+34) 628 555 948");
-        usersDatabase = new UsersDataBase(user1, user2);
+        usersDatabase = new UsersRepository(user1, user2);
     }
 
     public static String selectDesiredOption() {
         Scanner input = new Scanner(System.in);
         printOptions();
-        System.out.print("Select option: ");
+        System.out.print(Constants.selectOption);
         return input.nextLine();
     }
 
@@ -82,68 +85,68 @@ public class BibliotecaApp {
         Scanner input = new Scanner(System.in);
         if (options.contains(desiredMenu)){
             switch(desiredMenu) {
-                case "List of books":
-                    booksDataBase.printListOfItems();
+                case Constants.listOfBooks:
+                    booksDataBase.printListOfBooks();
                     break;
-                case "Checkout a book":
-                    System.out.print("What book do you want to checkout? ");
+                case Constants.checkoutABook:
+                    System.out.print(Constants.whatBookToCheckOut);
                     String bookToCheckout = input.nextLine();
                     booksDataBase.lookForAndCheckOutItem(bookToCheckout);
                     break;
-                case "Return a book":
-                    System.out.print("What book do you want to return? ");
+                case Constants.returnABook:
+                    System.out.print(Constants.whatBookToReturn);
                     String bookToReturn = input.nextLine();
                     booksDataBase.checksIfItemIsFromOurCollectionAndReturnIt(bookToReturn);
                     break;
-                case "List of movies":
+                case Constants.listOfMovies:
                     moviesDataBase.printListOfMovies();
                     break;
-                case "Checkout a movie":
-                    System.out.print("What movie do you want to checkout? ");
+                case Constants.checkoutAMovie:
+                    System.out.print(Constants.whatMovieToCheckOut);
                     String movieToCheckout = input.nextLine();
                     moviesDataBase.lookForAndCheckOutItem(movieToCheckout);
                     break;
-                case "Return a movie":
-                    System.out.print("What movie do you want to return? ");
+                case Constants.returnAmMovie:
+                    System.out.print(Constants.whatMovieToReturn);
                     String movieToReturn = input.nextLine();
                     moviesDataBase.checksIfItemIsFromOurCollectionAndReturnIt(movieToReturn);
                     break;
-                case "See checked out items":
+                case Constants.seeCheckedOutItems:
                     printCheckedOutItems();
                     break;
-                case "Personal info":
+                case Constants.personalInfo:
                     printUserPersonalInfo();
                     break;
-                case "Log in":
-                    System.out.print("Please introduce your Library Number: ");
+                case Constants.logIn:
+                    System.out.print(Constants.askForLibraryNumber);
                     String libraryNumber = input.nextLine();
-                    System.out.print("Please introduce your password: ");
+                    System.out.print(Constants.askForPassword);
                     String password = input.nextLine();
                     tryToLogIn(libraryNumber, password);
                     break;
-                case "Log out":
+                case Constants.logOut:
                     tryToLogOut();
                     break;
-                case "Exit":
-                    System.out.println("Bye!");
+                case Constants.exit:
+                    System.out.println(Constants.sayBye);
                     setExitApplication(true);
                     break;
             }
         } else {
-            System.out.println("Please select a valid option!");
+            System.out.println(Constants.selectValidOption);
         }
     }
 
     public static void printWelcomeMessage(){
-        System.out.println("Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!");
+        System.out.println(Constants.welcomeMessage);
     }
 
     public static void printOptions() {
-        System.out.print("\nOptions:   ");
+        System.out.print(Constants.lineBreak + Constants.options);
         for (String option: options) {
             System.out.print(option);
             if (options.indexOf(option) < options.size()-1){
-                System.out.print("   |   ");
+                System.out.print(Constants.optionsSeparator);
             }
             else {
                 System.out.println();
@@ -156,12 +159,12 @@ public class BibliotecaApp {
         if (currentUser != null) {
             if (currentUser.getPassword().equals(password)){
                 logIn(currentUser);
-                System.out.println("You successfully logged in.");
+                System.out.println(Constants.successfulLogIn);
             } else {
-                System.out.println("The password introduced isn't correct.");
+                System.out.println(Constants.invalidPassword);
             }
         } else {
-            System.out.println("The user introduced doesn't exist.");
+            System.out.println(Constants.invalidUser);
         }
     }
 
@@ -174,7 +177,7 @@ public class BibliotecaApp {
     public static void tryToLogOut() {
        if (getIsLoggedIn()) {
            logOut();
-           System.out.println("You successfully logged out.");
+           System.out.println(Constants.successLogOut);
        }
     }
 
@@ -186,38 +189,39 @@ public class BibliotecaApp {
 
     private static void modifyOptions() {
         if (getIsLoggedIn()) {
-            options.remove("Log in");
-            options.remove("See checked out items");
-            options.add(1, "Checkout a book");
-            options.add(2, "Return a book");
-            options.add(4, "Checkout a movie");
-            options.add(5, "Return a movie");
-            options.add(6, "Personal info");
-            options.add(7, "Log out");
+            options.remove(Constants.logIn);
+            options.remove(Constants.seeCheckedOutItems);
+            options.add(1, Constants.checkoutABook);
+            options.add(2, Constants.returnABook);
+            options.add(4, Constants.checkoutAMovie);
+            options.add(5, Constants.returnAmMovie);
+            options.add(6, Constants.personalInfo);
+            options.add(7, Constants.logOut);
         } else {
-            options.remove("Checkout a book");
-            options.remove("Return a book");
-            options.remove("Checkout a movie");
-            options.remove("Return a movie");
-            options.remove("Personal info");
-            options.remove("Log out");
-            options.add(2, "See checked out items");
-            options.add(3, "Log in");
+            options.remove(Constants.checkoutABook);
+            options.remove(Constants.returnABook);
+            options.remove(Constants.checkoutAMovie);
+            options.remove(Constants.returnAmMovie);
+            options.remove(Constants.personalInfo);
+            options.remove(Constants.logOut);
+            options.add(2, Constants.seeCheckedOutItems);
+            options.add(3, Constants.logIn);
         }
     }
 
     public static void printCheckedOutItems() {
-        System.out.printf("\n%-25s %-25s %-25s %-25s %-4s\n", "User","Type", "Name", "Author/Director", "Year");
+        System.out.print(Constants.lineBreak);
+        System.out.printf(Constants.checkedOutItemsFormat, Constants.user, Constants.type, Constants.name, Constants.creator, Constants.year);
         booksDataBase.printCheckedOutItems();
         moviesDataBase.printCheckedOutItems();
     }
 
     public static void printUserPersonalInfo() {
         if (getUserLoggedIn() != null) {
-            System.out.println("\nName: " + getUserLoggedIn().getUserName() +
-                    "\nLibrary number: " + getUserLoggedIn().getLibraryNumber() +
-                    "\nPhone number: " + getUserLoggedIn().getPhoneNumber() +
-                    "\nEmail: " + getUserLoggedIn().getEmail());
+            System.out.println(Constants.lineBreak + Constants.nameInfo + getUserLoggedIn().getUserName() +
+                    Constants.lineBreak + Constants.libraryNumberInfo + getUserLoggedIn().getLibraryNumber() +
+                    Constants.lineBreak + Constants.phoneNumberInfo + getUserLoggedIn().getPhoneNumber() +
+                    Constants.lineBreak + Constants.emailInfo + getUserLoggedIn().getEmail());
         }
     }
 }

@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class UsersDataBase {
+public class UsersRepository {
     List<User> listOfUsers;
 
-    public UsersDataBase(User... user) {
+    public UsersRepository(User... user) {
         listOfUsers = new ArrayList<>();
         Collections.addAll(listOfUsers, user);
     }

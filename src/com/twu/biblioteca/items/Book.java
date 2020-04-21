@@ -1,4 +1,4 @@
-package com.twu.biblioteca;
+package com.twu.biblioteca.items;
 
 public class Book extends Item{
 

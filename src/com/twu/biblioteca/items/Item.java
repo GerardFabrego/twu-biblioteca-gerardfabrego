@@ -1,4 +1,6 @@
-package com.twu.biblioteca;
+package com.twu.biblioteca.items;
+
+import com.twu.biblioteca.User;
 
 public abstract class Item {
     private String name;

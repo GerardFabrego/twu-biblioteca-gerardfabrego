@@ -1,5 +1,7 @@
 package com.twu.biblioteca;
 
+
+import com.twu.biblioteca.items.Movie;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -7,11 +9,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertFalse;
 
 public class MoviesDataBaseTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    MoviesDataBase fakeMoviesDataBase;
+    MoviesRepository fakeMoviesDataBase;
     User testUser1 = new User("testUser1", "111-1111", "pass1", "user1@test.com", "(+11) 111 111 111" );
     User testUser2 = new User("testUser2", "222-2222", "pass2", "user2@test.com", "(+22) 222 222 222");
     Movie testMovie1;
@@ -21,7 +22,7 @@ public class MoviesDataBaseTest {
     @Before
     public void setUp() {
         System.setOut(new PrintStream(outContent));
-        fakeMoviesDataBase = new MoviesDataBase();
+        fakeMoviesDataBase = new MoviesRepository();
         testMovie1 = new Movie("Fight club", "1999", "David Fincher", "8.8/10");
         testMovie2 = new Movie("Jojo Rabbit", "2019", "Taika Waititi", "9.3/10");
     }
@@ -29,7 +30,7 @@ public class MoviesDataBaseTest {
 
     @Test
     public void testPrintListOMovies() {
-        fakeMoviesDataBase = new MoviesDataBase(testMovie1, testMovie2);
+        fakeMoviesDataBase = new MoviesRepository(testMovie1, testMovie2);
         fakeMoviesDataBase.printListOfMovies();
 
         String expectedString = "\nName                      Year                      Director                  Rating                    Is available \n" +
@@ -124,3 +125,5 @@ public class MoviesDataBaseTest {
         assertEquals(expectedString, outContent.toString());
     }
 }
+
+
