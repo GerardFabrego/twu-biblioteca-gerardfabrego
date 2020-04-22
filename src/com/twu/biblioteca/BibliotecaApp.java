@@ -10,9 +10,9 @@ import java.util.Scanner;
 
 public class BibliotecaApp {
 
-    static BooksRepository booksDataBase;
-    static MoviesRepository moviesDataBase;
-    static UsersRepository usersDatabase;
+    static BooksRepository booksRepository;
+    static MoviesRepository moviesRepository;
+    static UsersRepository usersRepository;
 
     static List<String> options = new ArrayList<>(Arrays.asList(Constants.listOfBooks, Constants.listOfMovies, Constants.seeCheckedOutItems, Constants.logIn, Constants.exit));
 
@@ -62,16 +62,16 @@ public class BibliotecaApp {
         Book book1 = new Book("To kill a mockingbird", "Harper Lee", "1960");
         Book book2 = new Book("The alchemist", "Paula Coelho", "1980");
         Book book3 = new Book("Ender's game", "Orson Scott", "1985");
-        booksDataBase = new BooksRepository(book1, book2, book3);
+        booksRepository = new BooksRepository(book1, book2, book3);
 
         Movie movie1 = new Movie("Inception", "2010", "Christopher Nolan", "9.2/10");
         Movie movie2 = new Movie("Gran torino", "2008", "Clint Eastwood", "9.4/10");
         Movie movie3 = new Movie("Akira", "1988", "Katsuhiro Otomo", "9.2/10");
-        moviesDataBase = new MoviesRepository(movie1, movie2, movie3);
+        moviesRepository = new MoviesRepository(movie1, movie2, movie3);
 
         User user1 = new User("Gerard", "123-4567", "hellohello", "gerard@mail.com", "(+34) 699 123 444");
         User user2 = new User("Mariano", "234-5678", "byebye", "mariano@mail.com", "(+34) 628 555 948");
-        usersDatabase = new UsersRepository(user1, user2);
+        usersRepository = new UsersRepository(user1, user2);
     }
 
     public static String selectDesiredOption() {
@@ -86,30 +86,30 @@ public class BibliotecaApp {
         if (options.contains(desiredMenu)){
             switch(desiredMenu) {
                 case Constants.listOfBooks:
-                    booksDataBase.printListOfBooks();
+                    booksRepository.printListOfBooks();
                     break;
                 case Constants.checkoutABook:
                     System.out.print(Constants.whatBookToCheckOut);
                     String bookToCheckout = input.nextLine();
-                    booksDataBase.lookForAndCheckOutItem(bookToCheckout);
+                    booksRepository.lookForAndCheckOutItem(bookToCheckout);
                     break;
                 case Constants.returnABook:
                     System.out.print(Constants.whatBookToReturn);
                     String bookToReturn = input.nextLine();
-                    booksDataBase.checksIfItemIsFromOurCollectionAndReturnIt(bookToReturn);
+                    booksRepository.checksIfItemIsFromOurCollectionAndReturnIt(bookToReturn);
                     break;
                 case Constants.listOfMovies:
-                    moviesDataBase.printListOfMovies();
+                    moviesRepository.printListOfMovies();
                     break;
                 case Constants.checkoutAMovie:
                     System.out.print(Constants.whatMovieToCheckOut);
                     String movieToCheckout = input.nextLine();
-                    moviesDataBase.lookForAndCheckOutItem(movieToCheckout);
+                    moviesRepository.lookForAndCheckOutItem(movieToCheckout);
                     break;
                 case Constants.returnAmMovie:
                     System.out.print(Constants.whatMovieToReturn);
                     String movieToReturn = input.nextLine();
-                    moviesDataBase.checksIfItemIsFromOurCollectionAndReturnIt(movieToReturn);
+                    moviesRepository.checksIfItemIsFromOurCollectionAndReturnIt(movieToReturn);
                     break;
                 case Constants.seeCheckedOutItems:
                     printCheckedOutItems();
@@ -155,7 +155,7 @@ public class BibliotecaApp {
     }
 
     public static void tryToLogIn(String libraryNumber, String password) {
-        User currentUser = usersDatabase.getUserByLibraryNumber(libraryNumber);
+        User currentUser = usersRepository.getUserByLibraryNumber(libraryNumber);
         if (currentUser != null) {
             if (currentUser.getPassword().equals(password)){
                 logIn(currentUser);
@@ -188,32 +188,19 @@ public class BibliotecaApp {
     }
 
     private static void modifyOptions() {
-        if (getIsLoggedIn()) {
-            options.remove(Constants.logIn);
-            options.remove(Constants.seeCheckedOutItems);
-            options.add(1, Constants.checkoutABook);
-            options.add(2, Constants.returnABook);
-            options.add(4, Constants.checkoutAMovie);
-            options.add(5, Constants.returnAmMovie);
-            options.add(6, Constants.personalInfo);
-            options.add(7, Constants.logOut);
+        if (!getIsLoggedIn()) {
+            options = new ArrayList<>(Arrays.asList(Constants.listOfBooks, Constants.listOfMovies, Constants.seeCheckedOutItems, Constants.logIn, Constants.exit));
         } else {
-            options.remove(Constants.checkoutABook);
-            options.remove(Constants.returnABook);
-            options.remove(Constants.checkoutAMovie);
-            options.remove(Constants.returnAmMovie);
-            options.remove(Constants.personalInfo);
-            options.remove(Constants.logOut);
-            options.add(2, Constants.seeCheckedOutItems);
-            options.add(3, Constants.logIn);
+            options = new ArrayList<>(Arrays.asList(Constants.listOfBooks, Constants.checkoutABook, Constants.returnABook,
+                    Constants.listOfMovies, Constants.checkoutAMovie, Constants.returnAmMovie, Constants.personalInfo, Constants.logOut, Constants.exit));
         }
     }
 
     public static void printCheckedOutItems() {
         System.out.print(Constants.lineBreak);
         System.out.printf(Constants.checkedOutItemsFormat, Constants.user, Constants.type, Constants.name, Constants.creator, Constants.year);
-        booksDataBase.printCheckedOutItems();
-        moviesDataBase.printCheckedOutItems();
+        booksRepository.printCheckedOutItems();
+        moviesRepository.printCheckedOutItems();
     }
 
     public static void printUserPersonalInfo() {
