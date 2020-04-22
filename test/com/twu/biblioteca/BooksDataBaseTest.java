@@ -114,7 +114,7 @@ public class BooksDataBaseTest {
         fakeBooksDataBase.checksIfItemIsFromOurCollectionAndReturnIt(testBook1.getName());
 
         assertFalse(fakeBooksDataBase.getItemByName(testBook1.getName()).getIsCheckedOut());
-        String expectedString = "'" + testBook1.getName() + "' was not checked out.\n";
+        String expectedString = "You hadn't previously checked out the '" + testBook1.getName() + "'.\n";
         assertEquals(expectedString, outContent.toString());
     }
 

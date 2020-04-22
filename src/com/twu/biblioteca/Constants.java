@@ -32,6 +32,18 @@ public class Constants {
     final static String askForPassword = "Please introduce your password: ";
     final static String sayBye = "Bye!";
     final static String selectValidOption = "Please select a valid option!";
+    final static String itemCurrentlyCheckedOut1 = "'";
+    final static String itemCurrentlyCheckedOut2 = "' is currently checked out";
+    final static String checkOutItemNotInDataBase1 = "We don't have '";
+    final static String checkOutItemNotInDataBase2 = "' on our database.";
+    final static String itemCorrectlyCheckedOut1 = "You have checked out '";
+    final static String itemCorrectlyCheckedOut2 =  "'.";
+    final static String returnItemNotInDataBase1 = "The item '";
+    final static String returnItemNotInDataBase2 = "' doesn't belong to our collection";
+    final static String itemReturnedCorrectly1 = "You returned the '";
+    final static String itemReturnedCorrectly2 = "' successfully.";
+    final static String returnItemNotCheckedOutByCurrentUser1 = "You hadn't previously checked out the '";
+    final static String returnItemNotCheckedOutBySCurrentUser2 = "'.";
 
     //message log in and log out
     final static String successfulLogIn = "You successfully logged in.";

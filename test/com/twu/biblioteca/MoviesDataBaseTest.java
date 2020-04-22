@@ -112,7 +112,7 @@ public class MoviesDataBaseTest {
 
         fakeMoviesDataBase.checksIfItemIsFromOurCollectionAndReturnIt(testMovie1.getName());
 
-        String expectedString = "'" + testMovie1.getName() + "' was not checked out.\n";
+        String expectedString = "You hadn't previously checked out the '" + testMovie1.getName() + "'.\n";
         assertFalse(fakeMoviesDataBase.getItemByName(testMovie1.getName()).getIsCheckedOut());
         assertEquals(expectedString, outContent.toString());
     }
