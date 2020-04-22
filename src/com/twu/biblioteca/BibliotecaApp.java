@@ -128,17 +128,17 @@ public class BibliotecaApp {
                     tryToLogOut();
                     break;
                 case Constants.exit:
-                    System.out.println(Constants.sayBye);
+                    System.out.print(Constants.sayBye);
                     setExitApplication(true);
                     break;
             }
         } else {
-            System.out.println(Constants.selectValidOption);
+            System.out.print(Constants.selectValidOption);
         }
     }
 
     public static void printWelcomeMessage(){
-        System.out.println(Constants.welcomeMessage);
+        System.out.print(Constants.welcomeMessage);
     }
 
     public static void printOptions() {
@@ -159,12 +159,12 @@ public class BibliotecaApp {
         if (currentUser != null) {
             if (currentUser.getPassword().equals(password)){
                 logIn(currentUser);
-                System.out.println(Constants.successfulLogIn);
+                System.out.print(Constants.successfulLogIn);
             } else {
-                System.out.println(Constants.invalidPassword);
+                System.out.print(Constants.invalidPassword);
             }
         } else {
-            System.out.println(Constants.invalidUser);
+            System.out.print(Constants.invalidUser);
         }
     }
 
@@ -177,7 +177,7 @@ public class BibliotecaApp {
     public static void tryToLogOut() {
        if (getIsLoggedIn()) {
            logOut();
-           System.out.println(Constants.successLogOut);
+           System.out.print(Constants.successLogOut);
        }
     }
 
