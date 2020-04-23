@@ -87,4 +87,7 @@ public class Constants {
 
     final static String checkedOutItems = "\nUser                      Type                      Name                      Author/Director           Year\n";
     final static String printPersonalInfo = "\nName: \nLibrary number: \nPhone number: \nEmail: \n";
+
+    //test items
+    final static String listOfBooksHeader = "\nName                      Author                    Year                      Is available \n";
 }

@@ -1,0 +1,1 @@
+SELECT member.name FROM checkout_item, member WHERE member.id = checkout_item.member_id GROUP BY member.name HAVING COUNT(member.name) > 1;

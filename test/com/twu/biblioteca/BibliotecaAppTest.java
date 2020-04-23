@@ -12,19 +12,14 @@ import static org.mockito.Mockito.*;
 
 public class BibliotecaAppTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-
     static User user = mock(User.class);
-    static UsersRepository usersRepository = mock(UsersRepository.class);
-    static BooksRepository booksRepository = mock(BooksRepository.class);
-    static MoviesRepository moviesRepository = mock(MoviesRepository.class);
+
 
     @BeforeClass
     public static void setUp() {
-        BibliotecaApp.usersRepository = usersRepository;
-        BibliotecaApp.booksRepository = booksRepository;
-        BibliotecaApp.moviesRepository = moviesRepository;
+        BibliotecaApp.usersRepository = mock(UsersRepository.class);
 
-        when(usersRepository.getUserByLibraryNumber(Constants.correctUser)).thenReturn(user);
+        when(BibliotecaApp.usersRepository.getUserByLibraryNumber(Constants.correctUser)).thenReturn(user);
 
         when(user.getPassword()).thenReturn(Constants.correctPass);
         when(user.getUserName()).thenReturn(Constants.emptyString);
@@ -88,7 +83,6 @@ public class BibliotecaAppTest {
 
     @Test
     public void testCorrectUserCorrectPasswordLogIn() {
-
         BibliotecaApp.tryToLogIn(Constants.correctUser, Constants.correctPass);
 
         assertEquals(Constants.successfulLogIn, outContent.toString());
@@ -124,8 +118,10 @@ public class BibliotecaAppTest {
 
     @Test
     public void testPrintCheckedOutItems() {
-        doAnswer(param -> null).when(booksRepository).printCheckedOutItems();
-        doAnswer(param -> null).when(moviesRepository).printCheckedOutItems();
+        BibliotecaApp.booksRepository = mock(BooksRepository.class);
+        BibliotecaApp.moviesRepository = mock(MoviesRepository.class);
+        doAnswer(param -> null).when(BibliotecaApp.booksRepository).printCheckedOutItems();
+        doAnswer(param -> null).when(BibliotecaApp.moviesRepository).printCheckedOutItems();
 
         BibliotecaApp.printCheckedOutItems();
 

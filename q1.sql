@@ -1,0 +1,1 @@
+SELECT member.name FROM book, checkout_item, member WHERE member.id = checkout_item.member_id AND book.id = checkout_item.book_id AND book.title = 'The Hobbit';
